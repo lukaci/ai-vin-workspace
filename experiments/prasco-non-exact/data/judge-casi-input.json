@@ -1,0 +1,756 @@
+[
+ {
+  "item": 0,
+  "description": "PANNELLO INSONORIZZATORE COFANO",
+  "brand": "Bmw",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 1,
+  "description": "INTERCOOLER",
+  "brand": "Citroen",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 2,
+  "description": "MOSTRINA BRACCIO RETROVISORE SINISTRO",
+  "brand": "Fiat",
+  "result_path": "body exterior trims > 70712 , outer trim mouldings - external moldings and gaskets > 70712/01",
+  "result_parts": [
+   "moulding left [735410821]"
+  ]
+ },
+ {
+  "item": 3,
+  "description": "SUPPORTO FENDINEBBIA SINISTRO",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body shell and panels > 3 front end > front wheelhouse > a6 | front wheelhouse",
+  "result_parts": [
+   "bracket, front wing fixing, lh-front (production no. 13209302) [11 16 021]",
+   "bracket, front wing fixing, lh, upper (production no. 13191158) [11 16 023]"
+  ]
+ },
+ {
+  "item": 4,
+  "description": "CATADIOTTRO DESTRO PARAURTI POSTERIORE MOD. > 09",
+  "brand": "Volkswagen",
+  "result_path": "9 electrics > tail light - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - led tail light see illustration: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - additional brake light licence plate light rear light reflector - - - - - - - - - - - - - - - 945 - 001 - - - - - - - - - - - - - - - - - - - - - - - - - - - pr:8sk,8sp - - - - - - - - - - - - > tail light ------------------------------ led tail light see illustration: ------------------------------, -------------- 945-001 --------------, ------------ pr:8sk,8sp ------------",
+  "result_parts": [
+   "rear light reflector [5k0 945 106 h]",
+   "rear light reflector [5k0 945 105 h]"
+  ]
+ },
+ {
+  "item": 5,
+  "description": "PROIETTORE DESTRO H4-ELETTRICO-SENZA MOTORE",
+  "brand": "Nissan",
+  "result_path": "body electrical > headlamp (2010-07 - 2014-05 5hb) > headlamp",
+  "result_parts": [
+   "headlamp assy-rh [260101ka0a]"
+  ]
+ },
+ {
+  "item": 6,
+  "description": "RETRONEBBIA SINISTRO-SENZA PORTALAMPADA",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 7,
+  "description": "PARAFANGO ANTERIORE DESTRO-ALLUMINIO",
+  "brand": "Mercedes",
+  "result_path": "attachment parts > front fender > front fender",
+  "result_parts": [
+   "fender, front [a 156 880 02 18]"
+  ]
+ },
+ {
+  "item": 8,
+  "description": "CERNIERA SINISTRA COFANO",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body shell and panels > 3 front end > bonnet hinge > a6 | bonnet hinge",
+  "result_parts": [
+   "please refer to group c (bonnet fittings) (bonnet hinge and fittings) (shortcut: s07.c15) [dummy1]"
+  ]
+ },
+ {
+  "item": 9,
+  "description": "RINFORZO PARAURTI ANTERIORE",
+  "brand": "Ford",
+  "result_path": "body and paint > bumpers and grilles - radiator grille and front bumper > reinforcement > reinforcement",
+  "result_parts": [
+   "reinforcement [1715356]",
+   "reinforcement [1715357]"
+  ]
+ },
+ {
+  "item": 10,
+  "description": "LUCE DIURNA DESTRA",
+  "brand": "Volkswagen",
+  "result_path": "9 electrics > halogen fog lamp turn signal indicator - side > halogen fog lamp day driving lights",
+  "result_parts": [
+   "halogen fog lights with static cornering light and day driving lights [6c0 941 662]",
+   "trim [6c0 941 778 b]",
+   "bulb for day driving lights [n 107 244 02]",
+   "bulb carrier for day driving lights for bulb: [6c0 941 669]"
+  ]
+ },
+ {
+  "item": 11,
+  "description": "MODANATURA PORTA ANTERIORE DESTRA-NERA-GOFFRATA-CON BIADESIVO MOD. 5 PORTE",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 5 body mouldings > front door protective moulding - 5 door hatch (l68) (-84999999) (-86999999) > b5-2 | front door protective moulding // 5 door hatch (l68) (-84999999) (-86999999)",
+  "result_parts": [
+   "moulding, protection, front door, rh, primed (production no. 13187994) [51 72 445]",
+   "moulding, protection, front door, rh, anthracite (nls - no replacement part) (production no. 13187994) [(51 72 449)]"
+  ]
+ },
+ {
+  "item": 12,
+  "description": "STAFFA DESTRA PARAURTI ANTERIORE-PLASTICA",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 1 bumpers and radiator grille > front bumper - except gsi, opc, vxr > b1 | front bumper // except gsi, opc, vxr",
+  "result_parts": [
+   "bracket, rh [14 06 664]",
+   "bracket, rh (nls.- use 39003560 14 06 664) [(14 06 639)]",
+   "bracket, lh [14 06 663]",
+   "bracket, lh (nls.- use 39003558 14 06 663) [(14 06 638)]"
+  ]
+ },
+ {
+  "item": 13,
+  "description": "LUCE TARGA-CON LAMPADINA",
+  "brand": "Peugeot",
+  "result_path": "electrical components > lighting - signalling > license plate lamp > a7f 6 63j 01a, license plate lamp, not 2-door coupe cabriolet",
+  "result_parts": [
+   "bulb [6216 a1]",
+   "bulb (eurorepar) [16 164 315 80]",
+   "number plate lamp [6340 a3]"
+  ]
+ },
+ {
+  "item": 14,
+  "description": "MOLLA A GAS DESTRA/SINISTRA PORTELLONE POSTERIORE - 390 N - L 417 mm - C 132 mm - Ø 18 mm - Ø 8 mm",
+  "brand": "Ford",
+  "result_path": "body and paint > body closures - luggage compartment door > damper assy > damper assy",
+  "result_parts": [
+   "lift assy - gas [1542413]"
+  ]
+ },
+ {
+  "item": 15,
+  "description": "TELAIO SUPPORTO MOTORE-PARTE ANTERIORE MOD. BENZINA",
+  "brand": "Fiat",
+  "result_path": "engine and suspension > 10003 , engine suspensions - engine suspensions > 10003/00",
+  "result_parts": [
+   "support [55195032]",
+   "support [6000100374]"
+  ]
+ },
+ {
+  "item": 16,
+  "description": "PROIETTORE DESTRO H4-ELETTRICO-SENZA MOTORE",
+  "brand": "Nissan",
+  "result_path": "body electrical > headlamp (2010-07 - 2014-05 5hb) > headlamp",
+  "result_parts": [
+   "bulb [262948990d]",
+   "cover-socket,headlamp [260291kl0a]",
+   "headlamp assy-rh [260101ka0a]"
+  ]
+ },
+ {
+  "item": 17,
+  "description": "CORNICE TUBO SCARICO POSTERIORE",
+  "brand": "Fiat",
+  "result_path": "bodyshell and plates > 70020 , bodyshell, panels (rear part) - bodyshell, panels (rear part) > 70020/00",
+  "result_parts": [
+   "metal lining inf. compl. [46779003]",
+   "bracket [46831789]",
+   "metal lining upp. [51708314]",
+   "crossrail [46842956]",
+   "end plate right [51708353]"
+  ]
+ },
+ {
+  "item": 18,
+  "description": "CERNIERA SINISTRA COFANO",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body shell and panels > 3 front end > bonnet hinge > a6 | bonnet hinge",
+  "result_parts": [
+   "please refer to group c (bonnet fittings) (bonnet hinge and fittings) (shortcut: s07.c15) [dummy1]"
+  ]
+ },
+ {
+  "item": 19,
+  "description": "MOSTRINA BRACCIO RETROVISORE SINISTRO",
+  "brand": "Fiat",
+  "result_path": "body exterior trims > 70712 , outer trim mouldings - external moldings and gaskets > 70712/01",
+  "result_parts": [
+   "moulding left [735410821]"
+  ]
+ },
+ {
+  "item": 20,
+  "description": "SPOILER PARAURTI POSTERIORE",
+  "brand": "Fiat",
+  "result_path": "body exterior trims > 70727 , rear bumper - rear bumper > 70727/00",
+  "result_parts": [
+   "rear bumper [735443853]"
+  ]
+ },
+ {
+  "item": 21,
+  "description": "LUCE DIURNA DESTRA",
+  "brand": "Volkswagen",
+  "result_path": "9 electrics > halogen fog lamp turn signal indicator - side > halogen fog lamp day driving lights",
+  "result_parts": [
+   "halogen fog lights with static cornering light and day driving lights [6c0 941 662]",
+   "bulb for day driving lights [n 107 244 02]",
+   "trim [6c0 941 778 b]",
+   "bulb carrier for day driving lights for bulb: [6c0 941 669]"
+  ]
+ },
+ {
+  "item": 22,
+  "description": "FRONTALE ANTERIORE-COMPLETO MOD. DIESEL 2.0",
+  "brand": "Volkswagen",
+  "result_path": "8 body > lock carrier with mounting for coolant radiator > lock carrier with mounting for coolant radiator",
+  "result_parts": [
+   "lock carrier with mounting for coolant radiator [5g0 805 588 ac]"
+  ]
+ },
+ {
+  "item": 23,
+  "description": "PIASTRA SPECCHIO SINISTRA-TERMICA-ASFERICA",
+  "brand": "Volkswagen",
+  "result_path": "8 body > interior/exterior mirror > interior/exterior mirror",
+  "result_parts": [
+   "mirror glass (aspherical- wide angle) with plate [5k0 857 521]"
+  ]
+ },
+ {
+  "item": 24,
+  "description": "SPRUZZATORE LAVAFARI DESTRO",
+  "brand": "Audi",
+  "result_path": "9 electrics > windscreen washer system - front > windscreen washer system, front",
+  "result_parts": [
+   "water jet [8j0 955 988 f]"
+  ]
+ },
+ {
+  "item": 25,
+  "description": "RINFORZO PARAURTI ANTERIORE",
+  "brand": "Ford",
+  "result_path": "body and paint > bumpers and grilles - radiator grille and front bumper > reinforcement > reinforcement",
+  "result_parts": [
+   "reinforcement [1715356]",
+   "reinforcement [1715357]"
+  ]
+ },
+ {
+  "item": 26,
+  "description": "RETROVISORE DESTRO-ELETTRICO-CON PRIMER-CONVESSO MOD. 08 >",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 27,
+  "description": "RETRONEBBIA SINISTRO-SENZA PORTALAMPADA",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 28,
+  "description": "TERZA LUCE STOP-LED",
+  "brand": "Peugeot",
+  "result_path": "electrical components > lighting - signalling > supplementary stop light > a7f 6 63e 80a, supplementary stop light, saloon",
+  "result_parts": [
+   "supplementary stop light [6350 y2]"
+  ]
+ },
+ {
+  "item": 29,
+  "description": "MANIGLIA ANTERIORE/POSTERIORE SINISTRA-INTERNA-CON LEVA ARGENTO-CON MOSTRINA NERA",
+  "brand": "Citroen",
+  "result_path": "bodywork > front doors and trims > front hinged side door control > 023107 8 416 01a, front hinged side door control",
+  "result_parts": [
+   "door remote control [9143 n1]",
+   "door handle holder [9109 44]"
+  ]
+ },
+ {
+  "item": 30,
+  "description": "MECCANISMO ALZACRISTALLO ANTERIORE SINISTRO MOD. 5 PORTE",
+  "brand": "Ford",
+  "result_path": "body and paint > glass,frames and mechanisms - front door glass & window controls > regulator - window - less motor > regulator - window - less motor",
+  "result_parts": [
+   "regulator - window - less motor [1837995]"
+  ]
+ },
+ {
+  "item": 31,
+  "description": "CONDENSATORE",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 32,
+  "description": "PORTA ANTERIORE SINISTRA MOD. 5 PORTE",
+  "brand": "Volkswagen",
+  "result_path": "8 body > door panel - front lhd 4 - door - pr:4f2,4i2, 4i3,4k3 > door panel, front lhd 4-door, pr:4f2,4i2, 4i3,4k3",
+  "result_parts": [
+   "door panel trim (cloth) (no trim) [5g4 867 023]",
+   "trim [5g4 867 439]",
+   "trim for pull handle [5g0 868 039 a]"
+  ]
+ },
+ {
+  "item": 33,
+  "description": "SPOILER PARAURTI POSTERIORE",
+  "brand": "Fiat",
+  "result_path": "body exterior trims > 70727 , rear bumper - rear bumper > 70727/00",
+  "result_parts": [
+   "rear bumper [735443853]"
+  ]
+ },
+ {
+  "item": 34,
+  "description": "RETROVISORE DESTRO-ELETTRICO-CON PRIMER-CONVESSO MOD. 08 >",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 35,
+  "description": "INTERCOOLER",
+  "brand": "Citroen",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 36,
+  "description": "PASSARUOTA ANTERIORE SINISTRO-STAMPAGGIO AD INIEZIONE",
+  "brand": "Citroen",
+  "result_path": "bodywork > front section > front wing > 023107 7 435 01a, front wing",
+  "result_parts": [
+   "wheel housing mudguard [7136 cg]",
+   "front wheel arch [7119 gj]",
+   "front wheel arch [7119 fl]"
+  ]
+ },
+ {
+  "item": 37,
+  "description": "RIVETTI PLASTICA (13 PEZZI)-LUNGHEZZA 13 MM-LARGHEZZA 3.5 MM-TESTA 20 MM-FORO 8.5 MM",
+  "brand": "Ford",
+  "result_path": "other accessoriespositive territories = (-)\"f\" > boutique accessories - boutique accessories > accessory - miscellaneous > accessory - miscellaneous",
+  "result_parts": [
+   "accessory - miscellaneous [1711480]"
+  ]
+ },
+ {
+  "item": 38,
+  "description": "CONDENSATORE",
+  "brand": "Fiat",
+  "result_path": "cooling system > 10401 , radiator - radiator and piping > 10401/02",
+  "result_parts": [
+   "radiator [52233982]"
+  ]
+ },
+ {
+  "item": 39,
+  "description": "COPRIMOTORE-INFERIORE",
+  "brand": "Ford",
+  "result_path": "body and paint > insulators & shields - splash and heat shields > shield > shield",
+  "result_parts": [
+   "shield - engine compartment splash [2795447]"
+  ]
+ },
+ {
+  "item": 40,
+  "description": "RADIATORE",
+  "brand": "Volkswagen",
+  "result_path": "1 engine > coolant expansion tank cooler for coolant fan ring - pr:9ab > coolant expansion tank cooler for coolant fan ring, pr:9ab",
+  "result_parts": [
+   "cooler for coolant [1s0 121 253 ap]"
+  ]
+ },
+ {
+  "item": 41,
+  "description": "PIASTRA SPECCHIO SINISTRA-TERMICA-ASFERICA",
+  "brand": "Volkswagen",
+  "result_path": "8 body > interior/exterior mirror > interior/exterior mirror",
+  "result_parts": [
+   "mirror glass (aspherical- wide angle) with plate [5k0 857 521]"
+  ]
+ },
+ {
+  "item": 42,
+  "description": "TELAIO SUPPORTO MOTORE-PARTE ANTERIORE MOD. BENZINA",
+  "brand": "Fiat",
+  "result_path": "engine and suspension > 10003 , engine suspensions - engine suspensions > 10003/00",
+  "result_parts": [
+   "support [55195032]",
+   "support [6000100374]"
+  ]
+ },
+ {
+  "item": 43,
+  "description": "FANALE POSTERIORE SINISTRO-SENZA PORTALAMPAD-LED MOD. 4 PORTE",
+  "brand": "Mercedes",
+  "result_path": "electrical system > rear illumination > rear illumination",
+  "result_parts": [
+   "rear lamp combination [a 205 906 59 00]",
+   "rear lamp combination [a 205 906 51 00]"
+  ]
+ },
+ {
+  "item": 44,
+  "description": "MANIGLIA ANTERIORE/POSTERIORE SINISTRA-INTERNA-CON LEVA ARGENTO-CON MOSTRINA NERA",
+  "brand": "Citroen",
+  "result_path": "bodywork > front doors and trims > front hinged side door control > 023107 8 416 01a, front hinged side door control",
+  "result_parts": [
+   "door remote control [9143 n1]",
+   "door remote control [9144 a7]"
+  ]
+ },
+ {
+  "item": 45,
+  "description": "CORNICE TUBO SCARICO POSTERIORE",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 46,
+  "description": "MECCANISMO ALZACRISTALLO ANTERIORE SINISTRO MOD. 5 PORTE",
+  "brand": "Ford",
+  "result_path": "body and paint > glass,frames and mechanisms - front door glass & window controls > regulator - window - less motor > regulator - window - less motor",
+  "result_parts": [
+   "regulator - window - less motor [1837995]"
+  ]
+ },
+ {
+  "item": 47,
+  "description": "MOLLA A GAS DESTRA/SINISTRA PORTELLONE POSTERIORE - 390 N - L 417 mm - C 132 mm - Ø 18 mm - Ø 8 mm",
+  "brand": "Ford",
+  "result_path": "body and paint > body closures - luggage compartment door > damper assy > damper assy",
+  "result_parts": [
+   "lift assy - gas [1542413]"
+  ]
+ },
+ {
+  "item": 48,
+  "description": "TAPPO TERGIFARO DESTRO-CON PRIMER",
+  "brand": "Volkswagen",
+  "result_path": "8 body > cofano anteriore - ant. > cofano anteriore, ant.",
+  "result_parts": [
+   "cappuccio di copertura [n 906 500 01]",
+   "cappuccio di copertura [n 909 685 01]"
+  ]
+ },
+ {
+  "item": 49,
+  "description": "SPRUZZATORE LAVAFARI DESTRO",
+  "brand": "Audi",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 50,
+  "description": "GRIGLIA RADIATORE-NERA-CON MODANATURA CROMATA MOD. TRENDLINE",
+  "brand": "Volkswagen",
+  "result_path": "8 body > griglia radiatore griglia ventilazione > griglia radiatore",
+  "result_parts": [
+   "nero / nero satinato / cromato lucido [05/14-03/17 zll]",
+   "nero / nero satinato / cromato lucido [12/13-03/17 zll]",
+   "crom. lucido/blu ultramarino/ nero [06/13-03/17 afm]",
+   "crom. lucido/blu ultramarino/ nero [08/12-03/17 afm]",
+   "pure white/cromo lucido/blu oltremare/nero [06/14-03/17 cwb]"
+  ]
+ },
+ {
+  "item": 51,
+  "description": "PARAURTI ANTERIORE-CON PRIMER-CON TAPPO COPRI GANCIO-CON TRACCE PDC+PARK ASSIST",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 1 bumpers and radiator grille > front bumper - except gsi, opc, vxr > b1 | front bumper // except gsi, opc, vxr",
+  "result_parts": [
+   "flap, towing lug [39042958]",
+   "flap, towing lug (nls.- use 39042958) [(14 05 246)]",
+   "bumper, assy., front (except parking pilot system) (nls.- use 39014304 14 01 189) [(14 01 186)]",
+   "bumper, assy., front (except parking pilot system) (nls.- use 39059634) [(14 01 189)]",
+   "bumper, assy., front (except parking pilot system) [39059634]"
+  ]
+ },
+ {
+  "item": 52,
+  "description": "FENDINEBBIA DESTRO/SINISTRO-CON LAMPADINA MOD. 5 PORTE",
+  "brand": "Fiat",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 53,
+  "description": "CANTONALE DESTRO PARAURTI ANTERIORE-GRIGIO-GOFFRATO",
+  "brand": "Ford",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 54,
+  "description": "VENTOLA",
+  "brand": "Audi",
+  "result_path": "2 fuel, exhaust, cooling > a/c compressor connecting and mounting parts for compressor - 2.0 ltr. - 4 - cylinder + diesel eng. > a/c compressor connecting and mounting parts for compressor, 2.0 ltr., 4-cylinder+ diesel eng.",
+  "result_parts": [
+   "pulley for a/c compressor [8k0 260 810]",
+   "a/c compressor [8k0 260 805 l]"
+  ]
+ },
+ {
+  "item": 55,
+  "description": "RIVETTI PLASTICA (13 PEZZI)-LUNGHEZZA 13 MM-LARGHEZZA 3.5 MM-TESTA 20 MM-FORO 8.5 MM",
+  "brand": "Ford",
+  "result_path": "body and paint > plugs - body and floor - plugs - body > hardware - miscellaneous > hardware - miscellaneous",
+  "result_parts": [
+   "button [4103500]"
+  ]
+ },
+ {
+  "item": 56,
+  "description": "VENTOLA",
+  "brand": "Audi",
+  "result_path": "9 electrics > radiator fan control unit for radiator fan individual parts - 4 - cylinder + cabb,caga, cagb,caha, cahb,caba, cdhb,cagc, cdnb,cdnc, cdha,caea, cfka,caeb, cmea,cjcb > radiator fan, pr:1d0+8z5",
+  "result_parts": [
+   "radiator fan [8k0 959 455 g]"
+  ]
+ },
+ {
+  "item": 57,
+  "description": "SUPPORTO FENDINEBBIA SINISTRO",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 1 bumpers and number plate fixings > front bumper fittings - -b4157375, -b6047744 > b1 | front bumper fittings // -b4157375, -b6047744",
+  "result_parts": [
+   "rail, guide, front end panel to wing, lh [14 06 207]"
+  ]
+ },
+ {
+  "item": 58,
+  "description": "FENDINEBBIA DESTRO/SINISTRO-CON LAMPADINA MOD. 5 PORTE",
+  "brand": "Fiat",
+  "result_path": "lighting > 55401 , outer lighting - reverse fog tail lamp > 55401-040",
+  "result_parts": [
+   "foglight [51854698]",
+   "bulb 5w [6216a1]",
+   "bulb 5w (eurorepar) [1616431580]"
+  ]
+ },
+ {
+  "item": 59,
+  "description": "TAPPO TERGIFARO DESTRO-CON PRIMER",
+  "brand": "Volkswagen",
+  "result_path": "8 body > tappo carrozzeria > bungs body",
+  "result_parts": [
+   "bungs [n 102 265 01]",
+   "bungs [1k0 899 184]",
+   "bungs [1k0 899 183]",
+   "bungs [n 107 464 01]",
+   "grommet [431 971 908]"
+  ]
+ },
+ {
+  "item": 60,
+  "description": "PARAFANGO ANTERIORE DESTRO-ALLUMINIO",
+  "brand": "Mercedes",
+  "result_path": "attachment parts > front fender > front fender",
+  "result_parts": [
+   "fender, front [a 156 880 02 18]"
+  ]
+ },
+ {
+  "item": 61,
+  "description": "STAFFA DESTRA PARAURTI ANTERIORE-PLASTICA",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 1 bumpers and radiator grille > front bumper - except gsi, opc, vxr > b1 | front bumper // except gsi, opc, vxr",
+  "result_parts": [
+   "bracket, rh [14 06 664]",
+   "bracket, rh (nls.- use 39003560 14 06 664) [(14 06 639)]"
+  ]
+ },
+ {
+  "item": 62,
+  "description": "MODANATURA PORTA ANTERIORE DESTRA-NERA-GOFFRATA-CON BIADESIVO MOD. 5 PORTE",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 5 body mouldings > front door protective moulding - 5 door hatch (l68) (-84999999) (-86999999) > b5-2 | front door protective moulding // 5 door hatch (l68) (-84999999) (-86999999)",
+  "result_parts": [
+   "moulding, protection, front door, rh, primed (production no. 13187994) [51 72 445]"
+  ]
+ },
+ {
+  "item": 63,
+  "description": "COPRIMOTORE-INFERIORE",
+  "brand": "Ford",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 64,
+  "description": "PORTA ANTERIORE SINISTRA MOD. 5 PORTE",
+  "brand": "Volkswagen",
+  "result_path": "8 body > door panel - front lhd 4 - door - pr:4f2,4i2, 4i3,4k3 > door panel, front lhd 4-door, pr:4f2,4i2, 4i3,4k3",
+  "result_parts": [
+   "door panel trim (cloth) (no trim) [5g4 867 023]",
+   "trim [5g4 867 439]",
+   "trim for pull handle [5g0 868 039 a]"
+  ]
+ },
+ {
+  "item": 65,
+  "description": "FRONTALE ANTERIORE-COMPLETO MOD. DIESEL 2.0",
+  "brand": "Volkswagen",
+  "result_path": "8 body > bodywork front part d >> - 06.08.2018 > bodywork front part d >> - 06.08.2018",
+  "result_parts": [
+   "cross panel [5q1 803 155 b]",
+   "closing plate [5q1 803 177]"
+  ]
+ },
+ {
+  "item": 66,
+  "description": "GRIGLIA RADIATORE-NERA-CON MODANATURA CROMATA MOD. TRENDLINE",
+  "brand": "Volkswagen",
+  "result_path": "8 body > griglia radiatore griglia ventilazione > griglia radiatore",
+  "result_parts": [
+   "griglia radiatore [5g0 853 651 at]",
+   "griglia radiatore [5g0 853 651 r]"
+  ]
+ },
+ {
+  "item": 67,
+  "description": "TERZA LUCE STOP-LED",
+  "brand": "Peugeot",
+  "result_path": "electrical components > lighting - signalling > supplementary stop light > a7f 6 63e 80a, supplementary stop light, saloon",
+  "result_parts": [
+   "supplementary stop light [6350 y2]"
+  ]
+ },
+ {
+  "item": 68,
+  "description": "VASCHETTA ACQUA A ESPANSIONE",
+  "brand": "Volkswagen",
+  "result_path": "1 engine > flange reservoir cooler for coolant - 1.2 ltr. - 3 - cylinder + diesel eng. + cfwa > flange reservoir cooler for coolant, 1.2 ltr., 3-cylinder+ diesel eng.+ cfwa",
+  "result_parts": [
+   "reservoir [6q0 121 407 b]",
+   "retainer for reservoir [6r0 121 409]",
+   "end cap [3b0 121 321]"
+  ]
+ },
+ {
+  "item": 69,
+  "description": "CALOTTA RETROVISORE DESTRO-CON PRIMER",
+  "brand": "Ford",
+  "result_path": "body and paint > rear view mirrors and related parts - exterior rear view mirror > cover > cover",
+  "result_parts": [
+   "cover assy [1755426]"
+  ]
+ },
+ {
+  "item": 70,
+  "description": "RADIATORE",
+  "brand": "Volkswagen",
+  "result_path": "1 engine > coolant expansion tank cooler for coolant fan ring - pr:9ab > coolant expansion tank cooler for coolant fan ring, pr:9ab",
+  "result_parts": [
+   "cooler for coolant [1s0 121 253 ap]",
+   "coolant expansion tank [1s0 121 407 e]"
+  ]
+ },
+ {
+  "item": 71,
+  "description": "VASCHETTA ACQUA A ESPANSIONE",
+  "brand": "Volkswagen",
+  "result_path": "1 engine > flange reservoir cooler for coolant - 1.2 ltr. - 3 - cylinder + diesel eng. + cfwa > flange reservoir cooler for coolant, 1.2 ltr., 3-cylinder+ diesel eng.+ cfwa",
+  "result_parts": [
+   "reservoir [6q0 121 407 b]"
+  ]
+ },
+ {
+  "item": 72,
+  "description": "CALOTTA RETROVISORE DESTRO-CON PRIMER",
+  "brand": "Ford",
+  "result_path": "body and paint > rear view mirrors and related parts - exterior rear view mirror > cover > cover",
+  "result_parts": [
+   "cover assy [1755426]"
+  ]
+ },
+ {
+  "item": 73,
+  "description": "PANNELLO INSONORIZZATORE COFANO",
+  "brand": "Bmw",
+  "result_path": "bodywork > hood - bonnet / mounted parts > bonnet / mounted parts",
+  "result_parts": [
+   "hood [41 62 7 162 102]"
+  ]
+ },
+ {
+  "item": 74,
+  "description": "PASSARUOTA ANTERIORE SINISTRO-STAMPAGGIO AD INIEZIONE",
+  "brand": "Citroen",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 75,
+  "description": "FANALE POSTERIORE SINISTRO-SENZA PORTALAMPAD-LED MOD. 4 PORTE",
+  "brand": "Mercedes",
+  "result_path": "electrical system > rear illumination > rear illumination",
+  "result_parts": [
+   "contact socket housing [a 025 545 95 26]",
+   "rear lamp combination [a 205 906 51 00]",
+   "rear lamp combination [a 205 906 59 00]"
+  ]
+ },
+ {
+  "item": 76,
+  "description": "LUCE TARGA-CON LAMPADINA",
+  "brand": "Peugeot",
+  "result_path": "electrical components > lighting - signalling > license plate lamp > a7f 6 63j 01a, license plate lamp, not 2-door coupe cabriolet",
+  "result_parts": [
+   "bulb [6216 a1]",
+   "bulb (eurorepar) [16 164 315 80]",
+   "number plate lamp [6340 a3]"
+  ]
+ },
+ {
+  "item": 77,
+  "description": "PARAURTI ANTERIORE-CON PRIMER-CON TAPPO COPRI GANCIO-CON TRACCE PDC+PARK ASSIST",
+  "brand": "Opel/Vauxhall",
+  "result_path": "body exterior fittings > 1 bumpers and radiator grille > front bumper - except gsi, opc, vxr > b1 | front bumper // except gsi, opc, vxr",
+  "result_parts": [
+   "bumper, assy., front (except parking pilot system) (nls.- use 39003567 14 01 186) [(14 01 145)]",
+   "bumper, assy., front (except parking pilot system) (nls.- use 39014304 14 01 189) [(14 01 186)]",
+   "bumper, assy., front (except parking pilot system) (nls.- use 39059634) [(14 01 189)]",
+   "bumper, assy., front (except parking pilot system) [39059634]",
+   "bumper, assy., front (except parking pilot system) (eurorepar) [1696723680]"
+  ]
+ },
+ {
+  "item": 78,
+  "description": "CANTONALE DESTRO PARAURTI ANTERIORE-GRIGIO-GOFFRATO",
+  "brand": "Ford",
+  "result_path": null,
+  "result_parts": null
+ },
+ {
+  "item": 79,
+  "description": "CATADIOTTRO DESTRO PARAURTI POSTERIORE MOD. > 09",
+  "brand": "Volkswagen",
+  "result_path": "9 electrics > tail light - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - led tail light see illustration: - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - additional brake light licence plate light rear light reflector - - - - - - - - - - - - - - - 945 - 001 - - - - - - - - - - - - - - - - - - - - - - - - - - - pr:8sk,8sp - - - - - - - - - - - - > tail light ------------------------------ led tail light see illustration: ------------------------------, -------------- 945-001 --------------, ------------ pr:8sk,8sp ------------",
+  "result_parts": [
+   "rear light reflector [5k0 945 106 h]",
+   "rear light reflector [5k0 945 105 h]"
+  ]
+ }
+]

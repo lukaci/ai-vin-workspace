@@ -1,0 +1,9 @@
+{
+  // .s3/ è il bucket montato: niente watcher né ricerca, altrimenti VS Code lo scandisce tutto
+  "files.watcherExclude": {
+    "**/.s3/**": true
+  },
+  "search.exclude": {
+    "**/.s3": true
+  }
+}

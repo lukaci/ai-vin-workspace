@@ -1,0 +1,8 @@
+.s3/
+.backups/
+.tmp/
+graft/
+ai-vin-app/
+ai-vin-logging/
+ai-vin-service/
+ai-vin-website/

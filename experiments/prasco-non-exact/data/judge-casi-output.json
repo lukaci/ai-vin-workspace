@@ -1,0 +1,402 @@
+[
+ {
+  "item": 0,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 1,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 2,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 3,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 4,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 5,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 6,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 7,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 8,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 9,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 10,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 11,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 12,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 13,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 14,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 15,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 16,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 17,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 18,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 19,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 20,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 21,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 22,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 23,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 24,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 25,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 26,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 27,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 28,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 29,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 30,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 31,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 32,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 33,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 34,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 35,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 36,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 37,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 38,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 39,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 40,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 41,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 42,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 43,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 44,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 45,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 46,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 47,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 48,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 49,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 50,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 51,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 52,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 53,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 54,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 55,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 56,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 57,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 58,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 59,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 60,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 61,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 62,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 63,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 64,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 65,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 66,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 67,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 68,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 69,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 70,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 71,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 72,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 73,
+  "verdict": "other_part",
+  "note": "Different part from requested"
+ },
+ {
+  "item": 74,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 75,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 76,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 77,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ },
+ {
+  "item": 78,
+  "verdict": "none",
+  "note": "No answer"
+ },
+ {
+  "item": 79,
+  "verdict": "right",
+  "note": "Same kind of part, side compatible"
+ }
+]

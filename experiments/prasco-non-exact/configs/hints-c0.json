@@ -1,0 +1,156 @@
+[
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "air filter",
+        "hint": "When part name is 'air filter', under 'engine' and prefer matches for 'air filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Audi",
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'engine' and 'air filter' prefer matches 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'engine' and 'Air-conditioning system' or 'air distribution' and prefer matches 'Filter odour and harmful' or 'filter insert' or 'pollen filter' or 'allergen filter' or 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "clutch kit",
+        "hint": "When part name is 'clutch kit', prefer matches for 'clutch plate and pressure plate'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "fuel filter",
+        "hint": "When part name is 'fuel filter', prefer matches under 'engine' for 'filter cartridge' or 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "auxiliary belt",
+        "hint": "When part name is 'auxiliary belt', under 'belts and pulleys' prefer matches 'poly-v-belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "timing",
+        "hint": "When part name is 'timing', under 'engine' and prefer matches for 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "window glass",
+        "hint": "When part name is 'window glass', prefer matches 'door window'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "bumper",
+        "hint": "When part name is 'bumper', prefer matches 'front bumper cover' or 'rear bumper cover'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "distribution, distribution kit",
+        "hint": "When part name is 'distribution', 'distribution kit', prefer matches for 'distribution control unit'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "timing kit",
+        "hint": "When part name is 'timing', 'timing kit', 'timing belt' under 'main engine components' and 'camshaft drive' prefer matches 'distribution control unit' or 'chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "spark plug",
+        "hint": "When part name is 'spark plug' and fuel is diesel prefer matches 'glow plug'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "glow plug",
+        "hint": "When part name is 'glow plug' and fuel is petrol prefer matches 'spark plug'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "timing",
+        "hint": "When part name is 'timing' prefer matches 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat"
+        ],
+        "part": "timing",
+        "hint": "When part name is 'timing' under 'main engine components' and 'camshaft drive' prefer matches 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'electrical components' and units  'AIR PULLER-AIR ENTRY-MODULE-REDUCER' or 'EVAPORATOR'  and prefer matches 'PASSENGER CMPT CARBON FILTER' or 'ANTI-ALLERGENIC PASS CMPT FLT'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "fuel filter",
+        "hint": "When part name is 'fuel filter', prefer matches under 'engine' for 'filter cartridge'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Jeep"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under  'climate control' and 'heater/air' and prefer matches  'air cleaner'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Ford"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter' prefer matches under 'Electrical'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Ford"
+        ],
+        "part": "brake disc",
+        "hint": "When part name is 'brake disc' prefer matches under 'Chassis'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "BMW"
+        ],
+        "part": "bumper",
+        "hint": "When part name is 'bumper' prefer matches under 'trim panel'"
+    }
+]

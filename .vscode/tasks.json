@@ -1,0 +1,23 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "S3: monta bucket (sola lettura)",
+      "type": "shell",
+      "command": "${workspaceFolder}/.vscode/s3-mount.sh",
+      "args": ["mount"],
+      "isBackground": true,
+      "problemMatcher": [],
+      "runOptions": { "runOn": "folderOpen" },
+      "presentation": { "reveal": "silent", "panel": "dedicated", "clear": true }
+    },
+    {
+      "label": "S3: smonta bucket",
+      "type": "shell",
+      "command": "${workspaceFolder}/.vscode/s3-mount.sh",
+      "args": ["umount"],
+      "problemMatcher": [],
+      "presentation": { "reveal": "silent", "panel": "shared" }
+    }
+  ]
+}

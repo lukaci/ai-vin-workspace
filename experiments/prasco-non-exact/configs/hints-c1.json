@@ -1,0 +1,842 @@
+[
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "air filter",
+        "hint": "When part name is 'air filter', under 'engine' and prefer matches for 'air filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Audi",
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'engine' and 'air filter' prefer matches 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'engine' and 'Air-conditioning system' or 'air distribution' and prefer matches 'Filter odour and harmful' or 'filter insert' or 'pollen filter' or 'allergen filter' or 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "clutch kit",
+        "hint": "When part name is 'clutch kit', prefer matches for 'clutch plate and pressure plate'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "fuel filter",
+        "hint": "When part name is 'fuel filter', prefer matches under 'engine' for 'filter cartridge' or 'filter element'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "auxiliary belt",
+        "hint": "When part name is 'auxiliary belt', under 'belts and pulleys' prefer matches 'poly-v-belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "timing",
+        "hint": "When part name is 'timing', under 'engine' and prefer matches for 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "window glass",
+        "hint": "When part name is 'window glass', prefer matches 'door window'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Volkswagen Group",
+        "part": "bumper",
+        "hint": "When part name is 'bumper', prefer matches 'front bumper cover' or 'rear bumper cover'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "distribution, distribution kit",
+        "hint": "When part name is 'distribution', 'distribution kit', prefer matches for 'distribution control unit'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "timing kit",
+        "hint": "When part name is 'timing', 'timing kit', 'timing belt' under 'main engine components' and 'camshaft drive' prefer matches 'distribution control unit' or 'chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "spark plug",
+        "hint": "When part name is 'spark plug' and fuel is diesel prefer matches 'glow plug'"
+    },
+    {
+        "provider": "slax-partslink",
+        "manufacturer": "Stellantis",
+        "part": "glow plug",
+        "hint": "When part name is 'glow plug' and fuel is petrol prefer matches 'spark plug'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "timing",
+        "hint": "When part name is 'timing' prefer matches 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat"
+        ],
+        "part": "timing",
+        "hint": "When part name is 'timing' under 'main engine components' and 'camshaft drive' prefer matches 'timing chain' or 'timing belt'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under 'electrical components' and units  'AIR PULLER-AIR ENTRY-MODULE-REDUCER' or 'EVAPORATOR'  and prefer matches 'PASSENGER CMPT CARBON FILTER' or 'ANTI-ALLERGENIC PASS CMPT FLT'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Peugeot",
+            "Citroen",
+            "DS Automobiles",
+            "Opel/Vauxhall"
+        ],
+        "part": "fuel filter",
+        "hint": "When part name is 'fuel filter', prefer matches under 'engine' for 'filter cartridge'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Jeep"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter', under  'climate control' and 'heater/air' and prefer matches  'air cleaner'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Ford"
+        ],
+        "part": "cabin filter",
+        "hint": "When part name is 'cabin filter' prefer matches under 'Electrical'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Ford"
+        ],
+        "part": "brake disc",
+        "hint": "When part name is 'brake disc' prefer matches under 'Chassis'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "BMW"
+        ],
+        "part": "bumper",
+        "hint": "When part name is 'bumper' prefer matches under 'trim panel'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "bumper",
+        "hint": "Bumpers, bumper covers, bumper reinforcements, bumper spoilers, bumper corners and bumper grilles are under the top group 'TRIM' ('FRONT BUMPER', 'REAR BUMPER'), not under 'BODY', which holds only sheet-metal panels"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "bumper corner",
+        "hint": "Bumpers, bumper covers, bumper reinforcements, bumper spoilers, bumper corners and bumper grilles are under the top group 'TRIM' ('FRONT BUMPER', 'REAR BUMPER'), not under 'BODY', which holds only sheet-metal panels"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "bumper spoiler",
+        "hint": "Bumpers, bumper covers, bumper reinforcements, bumper spoilers, bumper corners and bumper grilles are under the top group 'TRIM' ('FRONT BUMPER', 'REAR BUMPER'), not under 'BODY', which holds only sheet-metal panels"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "bumper grille",
+        "hint": "Bumpers, bumper covers, bumper reinforcements, bumper spoilers, bumper corners and bumper grilles are under the top group 'TRIM' ('FRONT BUMPER', 'REAR BUMPER'), not under 'BODY', which holds only sheet-metal panels"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "tow hook cover",
+        "hint": "Bumpers, bumper covers, bumper reinforcements, bumper spoilers, bumper corners and bumper grilles are under the top group 'TRIM' ('FRONT BUMPER', 'REAR BUMPER'), not under 'BODY', which holds only sheet-metal panels"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "radiator grille",
+        "hint": "The radiator grille is under the top group 'TRIM' ('RADIATOR GRILLE' or 'FRONT BUMPER'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "exterior mirror",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under the top group 'TRIM' ('MIRROR-OUTSIDE REAR VIEW' or 'REAR VIEW MIRROR'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "mirror glass",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under the top group 'TRIM' ('MIRROR-OUTSIDE REAR VIEW' or 'REAR VIEW MIRROR'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "mirror cover",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under the top group 'TRIM' ('MIRROR-OUTSIDE REAR VIEW' or 'REAR VIEW MIRROR'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "wheel arch liner",
+        "hint": "Wheel arch liners (inner fenders, splash guards) are under the top group 'TRIM', unit 'WHEEL GAURD' (sic), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "moulding",
+        "hint": "Exterior mouldings and trim strips are under the top group 'TRIM' ('BODY SIDE MOULDING', 'FRONT DOOR MOULDING', 'FRONT BUMPER', 'REAR BUMPER'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "door handle",
+        "hint": "Door handles are under the top group 'TRIM' ('FRONT DOOR LOCKING', 'REAR DOOR LOCKING', 'TAIL GATE TRIM'), not under 'BODY'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "window regulator",
+        "hint": "Window regulators are under the top group 'TRIM' ('FRONT DOOR WINDOW REGULATOR & GLASS', 'REAR DOOR WINDOW REGULATOR & GLASS')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "engine undertray",
+        "hint": "The engine undertray is under the top group 'ENGINE', unit 'UNDER COVER'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "radiator",
+        "hint": "Radiator, cooling fan and fan shroud are under the top group 'ENGINE', unit 'ENGINE COOLING SYSTEM'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "cooling fan",
+        "hint": "Radiator, cooling fan and fan shroud are under the top group 'ENGINE', unit 'ENGINE COOLING SYSTEM'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "intercooler",
+        "hint": "Radiator, cooling fan and fan shroud are under the top group 'ENGINE', unit 'ENGINE COOLING SYSTEM'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "condenser",
+        "hint": "The air conditioning condenser is under 'ENGINE COOLING SYSTEM' (top group 'ENGINE') or 'AIRCON SYSTEM-COOLER LINE' (top group 'ELECTRIC')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "fog lamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under the top group 'ELECTRIC' ('HEAD LAMP', 'FRONT FOG LAMP', 'REAR COMBINATION LAMP', 'BODY SIDE LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "headlamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under the top group 'ELECTRIC' ('HEAD LAMP', 'FRONT FOG LAMP', 'REAR COMBINATION LAMP', 'BODY SIDE LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "tail lamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under the top group 'ELECTRIC' ('HEAD LAMP', 'FRONT FOG LAMP', 'REAR COMBINATION LAMP', 'BODY SIDE LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "fog lamp bezel",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under the top group 'ELECTRIC' ('HEAD LAMP', 'FRONT FOG LAMP', 'REAR COMBINATION LAMP', 'BODY SIDE LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bumper",
+        "hint": "Bumpers, bumper grilles, radiator grille, exterior mirrors, exterior mouldings and wheel arch liners are under 'BODY EXTERIOR TRIMS' (wheel arch liner = 'PROTECTION ITEMS - WHEEL CARRIAGE COVER')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bumper corner",
+        "hint": "Bumpers, bumper grilles, radiator grille, exterior mirrors, exterior mouldings and wheel arch liners are under 'BODY EXTERIOR TRIMS' (wheel arch liner = 'PROTECTION ITEMS - WHEEL CARRIAGE COVER')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bumper spoiler",
+        "hint": "Bumpers, bumper grilles, radiator grille, exterior mirrors, exterior mouldings and wheel arch liners are under 'BODY EXTERIOR TRIMS' (wheel arch liner = 'PROTECTION ITEMS - WHEEL CARRIAGE COVER')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bumper grille",
+        "hint": "Bumpers, bumper grilles, radiator grille, exterior mirrors, exterior mouldings and wheel arch liners are under 'BODY EXTERIOR TRIMS' (wheel arch liner = 'PROTECTION ITEMS - WHEEL CARRIAGE COVER')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "tow hook cover",
+        "hint": "Bumpers, bumper grilles, radiator grille, exterior mirrors, exterior mouldings and wheel arch liners are under 'BODY EXTERIOR TRIMS' (wheel arch liner = 'PROTECTION ITEMS - WHEEL CARRIAGE COVER')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "exterior mirror",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'BODY EXTERIOR TRIMS' > 'REARVIEW MIRRORS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "mirror glass",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'BODY EXTERIOR TRIMS' > 'REARVIEW MIRRORS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "mirror cover",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'BODY EXTERIOR TRIMS' > 'REARVIEW MIRRORS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "wheel arch liner",
+        "hint": "Wheel arch liners are under 'BODY EXTERIOR TRIMS' > 'PROTECTION ITEMS' ('WHEEL CARRIAGE COVER'); 'wheel carriage' means wheel house"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "engine undertray",
+        "hint": "The engine undertray is under 'TRAILER AND COVERS' > 'FRAME GUARDS' ('ENGINE UNDERSIDE GUARD')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "door handle",
+        "hint": "Door handles, window regulators, bonnet and doors are under 'DISPLAY UNITS AND WINDOWS' ('SIDE FRONT DOORS', 'SIDE REAR DOORS', 'ENGINE COMPARTMENT LID'); interior handles may be under 'INTERNAL TRIM'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bonnet",
+        "hint": "The bonnet is 'ENGINE COMPARTMENT LID' under 'DISPLAY UNITS AND WINDOWS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "fender",
+        "hint": "The front fender is 'FRONT MUDGUARD' under 'BODYSHELL AND PLATES'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "bumper reinforcement",
+        "hint": "Bumper reinforcements / bumper beams are under 'BODYSHELL AND PLATES' ('FRONT END AND REAR CROSSRAIL', crash box) or in the bumper units of 'BODY EXTERIOR TRIMS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "front panel",
+        "hint": "Bumper reinforcements / bumper beams are under 'BODYSHELL AND PLATES' ('FRONT END AND REAR CROSSRAIL', crash box) or in the bumper units of 'BODY EXTERIOR TRIMS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "cross member",
+        "hint": "Bumper reinforcements / bumper beams are under 'BODYSHELL AND PLATES' ('FRONT END AND REAR CROSSRAIL', crash box) or in the bumper units of 'BODY EXTERIOR TRIMS'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "condenser",
+        "hint": "The air conditioning condenser is under 'CLIMATE CONTROL' ('CONDENSOR'), radiator and cooling fan under 'COOLING SYSTEM'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "fog lamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under 'LIGHTING' ('OUTER LIGHTING')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "headlamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under 'LIGHTING' ('OUTER LIGHTING')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "tail lamp",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under 'LIGHTING' ('OUTER LIGHTING')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Fiat",
+            "Lancia",
+            "Alfa Romeo",
+            "Abarth"
+        ],
+        "part": "fog lamp bezel",
+        "hint": "Exterior lamps (headlamps, fog lamps, tail lamps, side repeaters) are under 'LIGHTING' ('OUTER LIGHTING')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "bumper",
+        "hint": "Bumpers, radiator grille, engine hood and front fender are under group 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "bumper corner",
+        "hint": "Bumpers, radiator grille, engine hood and front fender are under group 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "bumper spoiler",
+        "hint": "Bumpers, radiator grille, engine hood and front fender are under group 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "bumper grille",
+        "hint": "Bumpers, radiator grille, engine hood and front fender are under group 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "tow hook cover",
+        "hint": "Bumpers, radiator grille, engine hood and front fender are under group 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "exterior mirror",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'Driver's door' ('Outside mirror'), not the 'inside rearview mirror' and not the accessories groups"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "mirror glass",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'Driver's door' ('Outside mirror'), not the 'inside rearview mirror' and not the accessories groups"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "mirror cover",
+        "hint": "Exterior mirrors, mirror glass and mirror covers are under 'Driver's door' ('Outside mirror'), not the 'inside rearview mirror' and not the accessories groups"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "door handle",
+        "hint": "Door handles are under 'Driver's door' / 'Rear doors' > 'Locking system'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "wheel arch liner",
+        "hint": "Wheel arch liners are under 'Front - end assembly, front panel' ('Wheel well' / 'WHEELHOUSE') or under 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "engine undertray",
+        "hint": "The engine undertray (engine compartment paneling, underride guard) is under 'Shielding and damping', 'Soundproofing' or 'Detachable parts'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "headlamp",
+        "hint": "Exterior lamps are under 'Electrical system': headlamps and fog lamps in 'Front illumination', tail lamps in 'Rear illumination'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "tail lamp",
+        "hint": "Exterior lamps are under 'Electrical system': headlamps and fog lamps in 'Front illumination', tail lamps in 'Rear illumination'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "fog lamp",
+        "hint": "Exterior lamps are under 'Electrical system': headlamps and fog lamps in 'Front illumination', tail lamps in 'Rear illumination'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "radiator",
+        "hint": "Radiator, intercooler ('Charge air cooling'), condenser and fan shroud are under group 'Radiator'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "cooling fan",
+        "hint": "Radiator, intercooler ('Charge air cooling'), condenser and fan shroud are under group 'Radiator'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "intercooler",
+        "hint": "Radiator, intercooler ('Charge air cooling'), condenser and fan shroud are under group 'Radiator'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "bumper",
+        "hint": "Front bumper and front grille are under 'BODY(FRONT,ROOF & FLOOR)'; rear bumper, rear fender protector and side mouldings are under 'BODY(SIDE & REAR)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "bumper corner",
+        "hint": "Front bumper and front grille are under 'BODY(FRONT,ROOF & FLOOR)'; rear bumper, rear fender protector and side mouldings are under 'BODY(SIDE & REAR)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "bumper spoiler",
+        "hint": "Front bumper and front grille are under 'BODY(FRONT,ROOF & FLOOR)'; rear bumper, rear fender protector and side mouldings are under 'BODY(SIDE & REAR)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "bumper grille",
+        "hint": "Front bumper and front grille are under 'BODY(FRONT,ROOF & FLOOR)'; rear bumper, rear fender protector and side mouldings are under 'BODY(SIDE & REAR)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "tow hook cover",
+        "hint": "Front bumper and front grille are under 'BODY(FRONT,ROOF & FLOOR)'; rear bumper, rear fender protector and side mouldings are under 'BODY(SIDE & REAR)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "door handle",
+        "hint": "Door handles are under 'BODY(SIDE & REAR)' ('FRONT DOOR LOCK & HANDLE', 'REAR DOOR LOCK & HANDLE') and back door handle under 'BODY(BACK DOOR & REAR BODY)'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "fog lamp",
+        "hint": "Exterior lamps are under 'BODY ELECTRICAL' ('HEADLAMP', 'FOG,DAYTIME RUNNING & DRIVING LAMP', 'REAR COMBINATION LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "headlamp",
+        "hint": "Exterior lamps are under 'BODY ELECTRICAL' ('HEADLAMP', 'FOG,DAYTIME RUNNING & DRIVING LAMP', 'REAR COMBINATION LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "tail lamp",
+        "hint": "Exterior lamps are under 'BODY ELECTRICAL' ('HEADLAMP', 'FOG,DAYTIME RUNNING & DRIVING LAMP', 'REAR COMBINATION LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "fog lamp bezel",
+        "hint": "Exterior lamps are under 'BODY ELECTRICAL' ('HEADLAMP', 'FOG,DAYTIME RUNNING & DRIVING LAMP', 'REAR COMBINATION LAMP')"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "radiator",
+        "hint": "Radiator and cooling fan are under 'EXHAUST & COOLING'; intercooler under 'ENGINE MECHANICAL'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "cooling fan",
+        "hint": "Radiator and cooling fan are under 'EXHAUST & COOLING'; intercooler under 'ENGINE MECHANICAL'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Nissan"
+        ],
+        "part": "intercooler",
+        "hint": "Radiator and cooling fan are under 'EXHAUST & COOLING'; intercooler under 'ENGINE MECHANICAL'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Kia",
+            "Hyundai"
+        ],
+        "part": "front panel",
+        "hint": "The front panel / radiator support is under the top group 'BODY', unit 'FENDER APRON & RADIATOR SUPPORT PANEL'"
+    },
+    {
+        "provider": "slax-partslink",
+        "brands": [
+            "Mercedes-Benz"
+        ],
+        "part": "front panel",
+        "hint": "The front panel, radiator support and bumper reinforcement are under 'Front - end assembly, front panel' ('Front reinforcement and radiator support')"
+    }
+]
