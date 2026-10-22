@@ -1,5 +1,26 @@
 # Ottimizzazione su "Strategie-dizionari-non-exact-11-10.xlsx"
 
+## Come riprendere (aggiornato il 2026-10-23)
+
+- Task: `TODO.md` del workspace, "[DOING] Ottimizzazione non-exact Prasco"; contesto e decisioni in `HANDOFF.md` (questa cartella).
+- Codice: ai-vin-service, branch `feat/prasco-non-exact-normalization`, commit `53a3989` (53a3989199b58be7e792dd6789990f6b841d1172); va pushato e poi unito a `dev`.
+- Stato: 4 cicli fatti (sotto). Configurazione proposta per il deploy: `configs/normalize-prompt-v3.md` + `configs/hints-c2.json`, non ancora caricate su S3.
+- Rilanciare una misura (da `ai-vin-service/`, con `.env` del servizio e `.s3/` montato):
+
+  ```bash
+  E=../experiments/prasco-non-exact
+  bun run test-cli/eval-find-part-sample.ts --cases $E/data/sample-gt-v1.jsonl --out $E/runs/<run>.jsonl \
+    --hints $E/configs/hints-c2.json --prompt $E/configs/normalize-prompt-v3.md \
+    --fresh-brands citroen,peugeot,ds --concurrency 2
+  python3 $E/summarize.py $E/runs/<run>.jsonl $E/runs/c4.jsonl --diff
+  ```
+
+  Senza `--prompt` usa il prompt built-in, senza `--hints` niente hints. Un caso dura 15-25 s; 88 casi ~30 min con concorrenza 2. Concorrenza più alta porta a 429 del provider (l'harness ritenta dopo 60 s).
+- Non versionato, quindi assente su un altro PC:
+  - `ai-vin-service/tmp/eval-cache` (risposte del provider lette durante i run): i primi run le richiedono di nuovo al provider, più lenti e con rischio di 429;
+  - i log dei run (stavano nello scratchpad della sessione): i risultati per caso sono comunque in `runs/*.jsonl`;
+  - la memoria di Claude Code (locale al PC): il contenuto utile è in questo diario e in `HANDOFF.md`.
+
 Diario dei cicli di ottimizzazione: cosa cambia a ogni ciclo, come si misura, risultati.
 
 ## Lettura del file del collega

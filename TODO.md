@@ -9,6 +9,7 @@ Ogni task: `**[STATO]** Titolo #tag`, sotto il testo (body). Un task completato 
   - `[TODO:EVAL]` da valutare
   - `[TODO:VERIFY]` da verificare
   - `[TODO:IMPROVE]` miglioramento da analizzare
+  - `[DOING]` in corso: nel body branch, commit e riferimenti per riprendere
   - `[DONE]` completato
 - Tag (capitolo di provenienza):
   - `#runtime` configurazione/runtime, non nel codice
@@ -23,6 +24,23 @@ gpt-4.1 sarà dismesso a gennaio, capire con 'luna' come performa, e valutare an
  - preparare un benchmark di non regressione buono, che valuti rapidità, numero di chiamate a provider, qualità
 
 ## MID
+
+**[DOING]** Ottimizzazione non-exact Prasco (file Strategie-dizionari-non-exact) #prasco\
+migliorare l'identificazione sui casi non exact del test del collega (`Strategie-dizionari-non-exact-11-10.xlsx`) con interventi non strutturali: prompt di normalizzazione, hints
+ - aggiornato il 2026-10-23
+ - branch ai-vin-service: `feat/prasco-non-exact-normalization`, commit `53a3989` (53a3989199b58be7e792dd6789990f6b841d1172), da pushare
+   - prompt di normalizzazione esterno `AIVIN_NORMALIZE_PROMPT_FILE` (S3 o path locale, `{{partName}}`, fallback built-in)
+   - hints cercati sul nome normalizzato, duplicati rimossi
+   - slax-partslink: 404 su `/units` salta solo quella tavola
+   - harness `test-cli/eval-find-part-sample.ts` (campione con OE noto, cache S3 in sola lettura)
+ - diario, configurazioni e run: `experiments/prasco-non-exact/` (`JOURNAL.md`: sezione "Come riprendere"; `HANDOFF.md`: contesto e decisioni)
+ - risultato: tavola giusta 55.8% → 59.7%, pezzo esatto 53.2% → 59.7% (77 casi, escluse Kia/Hyundai); limite principale: la navigazione non visita la tavola giusta (21 fallimenti su 31)
+ - da fare:
+   - push del branch, merge in `dev`
+   - deploy su S3: `configs/normalize-prompt-v3.md` (es. `hints/normalize-prompt.md`) + `AIVIN_NORMALIZE_PROMPT_FILE`; backup di `hints/hints.json` e upload di `configs/hints-c2.json`
+   - prossimo passo proposto: dizionario per marca (descrizione → tavola) ricavato dai casi exact in cache S3, misurato con l'harness
+ - problemi del provider emersi (`experiments/prasco-non-exact/provider-issues-kia-hyundai-citroen.md`): Kia tavole troncate, Hyundai PNC al posto del codice ricambio, Citroen/Peugeot codici tavola cambiati (cache S3 da invalidare), 429 senza retry (vedi "Gestione dei 429")
+ - collegati: "Tavola negli hints", "Categorie assemblygroup dichiarate", "Suggestions sospette negli excel di TEO", "Dismissione gpt-4.1 e benchmark di non regressione" (l'harness è riusabile)
 
 **[TODO:MID]** Prasco: disattivare le targhe #runtime\
 prasco: disattivare le targhe
