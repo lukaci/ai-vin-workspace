@@ -19,6 +19,9 @@ Ogni task: `**[STATO]** Titolo #tag`, sotto il testo (body). Un task completato 
 
 ## HI
 
+**[TODO:HI]** Regole del file delle cache\
+per i brand composti (es. 'alfa romeo') il meccanismo/naming convention che converte un nome file nel path con folder, non crea raggruppamenti per folder VIN
+
 **[TODO:HI]** Dismissione gpt-4.1 e benchmark di non regressione #general\
 gpt-4.1 sarà dismesso a gennaio, capire con 'luna' come performa, e valutare anche le decisions api
  - preparare un benchmark di non regressione buono, che valuti rapidità, numero di chiamate a provider, qualità
