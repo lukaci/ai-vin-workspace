@@ -106,7 +106,7 @@ gestione dei 429, se ne becco uno, vado al prossimo provider censito
 **[DONE]** Mapping WMI per i VIN unknown #general\
 inserire iv 'wmi' mapping per i vin in 'unknowm' e migrare la cache
 
-**[TODO:MID]** Cross Prasco SKU → OE #prasco\
+**[DOING]** Cross Prasco SKU → OE #prasco\
 utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> description
  - modificare API, per supportare quando la chiamata viene fatta passando part number esterni oppure OE
  - considerazione: le supersessions degli OE ci 'possono' essere, se nel file ci sono più righe con stesso SKU e diversi OE
@@ -120,7 +120,14 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - creare API per caricare il file con il tracciato
  - LOG delle richieste -> export periodico delle richieste, con descrizione, SKU Prasco originale, OE trovato -> SKU Prasco trovato
 - supportare Prasco: richiedono di passarci i cataloghi, dove c'è
- - perimetro attuale (2026-11-08): API di upload del tracciato csv (`item;oe;description`) in ai-vin-app, convertito nell'xls del lettore attuale e salvato sul bucket; applicability con SKU/OE in input e output
+ - aggiornato il 2026-11-08: upload e applicability per SKU fatti, mancano log/export delle richieste e cataloghi
+ - branch ai-vin-app: `claude/serene-bell-9z1i42` (da `main`), commit `b38e483`, pushato, da mergiare in `dev`
+   - `POST /api/v1/cross/upload` (multipart `file`): csv/txt/xlsx, colonne riconosciute per nome header (alias in `server/lib/cross/parse.ts`), codici normalizzati, convertito nell'xlsx letto all'avvio e salvato su `AIVIN_CROSS_FILE_PATH` (deve essere `.xlsx`); upload e file precedente archiviati in `cross-uploads/` accanto; sqlite locale sostituito a caldo
+   - `POST /api/v1/cross/part-applicability` (+ `/async/...`): API separata da `/part-applicability`; per riga SKU (`part_number` + `part_numbers`, union degli OE) oppure OE con `part_number_type: oe`; risposta con `cross` (`sku_found`, `skus_not_found`, `oe_numbers`, `search`: `oe`/`description`/`none`) e `skus` su matched part e suggestions
+   - senza descrizione in input, si usa la descrizione del tracciato; SKU non trovato e senza descrizione: riga non cercata (`search: none`)
+   - OpenAPI `1.0.0-draft-14`; CHANGELOG da fare in release (skill `release-notes`)
+ - da verificare: con S3 reale (scrittura sul bucket e archivio), tracciato completo Prasco (dimensione, tempi di conversione)
+ - nota: `feat/dev/prasco` (metadata in applicability, altri endpoint disattivati) non è in `main`: da riallineare se serve
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API"
 
 **[TODO:MID]** Cross: sincronizzazione tra istanze #prasco\
