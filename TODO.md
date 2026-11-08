@@ -120,6 +120,15 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - creare API per caricare il file con il tracciato
  - LOG delle richieste -> export periodico delle richieste, con descrizione, SKU Prasco originale, OE trovato -> SKU Prasco trovato
 - supportare Prasco: richiedono di passarci i cataloghi, dove c'è
+ - perimetro attuale (2026-11-08): API di upload del tracciato csv (`item;oe;description`) in ai-vin-app, convertito nell'xls del lettore attuale e salvato sul bucket; applicability con SKU/OE in input e output
+ - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API"
+
+**[TODO:MID]** Cross: sincronizzazione tra istanze #prasco\
+debito tecnico: l'upload delle cross aggiorna il sqlite solo dell'istanza che riceve la chiamata (senza reload completo); con più istanze di ai-vin-app le altre restano col dato vecchio fino al loro reload
+ - opzioni: reload periodico se cambia l'oggetto sul bucket (ETag/LastModified), notifica tra istanze, oppure storage condiviso al posto del sqlite locale
+
+**[TODO:MID]** Cross nelle API di search e nelle altre API #prasco\
+dopo l'applicability, gestire SKU/OE delle cross anche nelle API di search (part-search, ...) e nelle altre API che ricevono o restituiscono codici ricambio
 
 **[TODO:MID]** Licenze con abilitazione per singola API #prasco\
 gestione licenze, con granularità abilitazione singole API
