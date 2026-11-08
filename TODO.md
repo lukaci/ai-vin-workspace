@@ -121,13 +121,13 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - LOG delle richieste -> export periodico delle richieste, con descrizione, SKU Prasco originale, OE trovato -> SKU Prasco trovato
 - supportare Prasco: richiedono di passarci i cataloghi, dove c'è
  - aggiornato il 2026-11-08: upload e applicability per SKU fatti, mancano log/export delle richieste e cataloghi
- - branch ai-vin-app: `claude/serene-bell-9z1i42` (da `main`), ultimo commit `024a235`, pushato, da mergiare in `dev`
+ - branch ai-vin-app: `claude/serene-bell-9z1i42` (da `main`), ultimo commit `f817eaa`, pushato, da mergiare in `dev`
    - `POST /api/v1/cross/upload` (multipart `file`): csv/txt/xlsx, colonne riconosciute per nome header (alias in `server/lib/cross/parse.ts`), codici normalizzati, convertito nell'xlsx letto all'avvio e salvato su `AIVIN_CROSS_FILE_PATH` (deve essere `.xlsx`); upload e file precedente archiviati in `cross-uploads/` accanto; sqlite locale sostituito a caldo
-   - `POST /api/v1/part-applicability/cross` (+ `/async/part-applicability/cross`): API separata da `/part-applicability`; per riga SKU (`part_number` + `part_numbers`, union degli OE) oppure OE con `part_number_type: oe`; risposta con `cross` (`skus`: `{ sku, part_numbers }` per SKU richiesto, vuoto se non trovato; `part_numbers`: OE controllati; `description`), `matched_part.skus`, `cross.skus` con la stessa forma sulle parti delle suggestions; `/part-applicability` vecchia senza cross
+   - `POST /api/v1/part-applicability/cross` (+ `/async/part-applicability/cross`): API separata da `/part-applicability`; per riga SKU (`part_number` + `part_numbers`, union degli OE) oppure OE con `part_number_type: oe`; risposta con `cross` (`skus`: `{ sku, part_numbers }` per SKU richiesto, vuoto se non trovato; `part_numbers`: OE controllati; `description`), `cross.skus` con la stessa forma su `matched_part` e sulle parti delle suggestions; `metadata` di richiesta e righe restituiti com'erano (come in `feat/dev/prasco`); `/part-applicability` vecchia senza cross
    - senza descrizione in input, si usa la descrizione del tracciato; SKU non trovato e senza descrizione: riga non cercata (`search: none`)
    - OpenAPI `1.0.0-draft-14`; CHANGELOG da fare in release (skill `release-notes`)
  - da verificare: con S3 reale (scrittura sul bucket e archivio), tracciato completo Prasco (dimensione, tempi di conversione)
- - nota: `feat/dev/prasco` (metadata in applicability, altri endpoint disattivati) non è in `main`: da riallineare se serve
+ - nota: `feat/dev/prasco` (metadata in applicability, altri endpoint disattivati) non è in `main`: la `/part-applicability` vecchia su `main` non ha i `metadata` (ci sono solo su quel branch); la nuova li ha già
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API"
 
 **[TODO:MID]** Cross: sincronizzazione tra istanze #prasco\
