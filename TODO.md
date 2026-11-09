@@ -134,6 +134,18 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
 debito tecnico: l'upload delle cross aggiorna il sqlite solo dell'istanza che riceve la chiamata (senza reload completo); con più istanze di ai-vin-app le altre restano col dato vecchio fino al loro reload
  - opzioni: reload periodico se cambia l'oggetto sul bucket (ETag/LastModified), notifica tra istanze, oppure storage condiviso al posto del sqlite locale
 
+**[TODO:MID]** Cross: validazione e limiti dell'upload #prasco\
+rafforzare la validazione del tracciato in `POST /api/v1/cross/upload` (ai-vin-app, `server/lib/cross/parse.ts`, `cross.ts`), prima che sostituisca le cross in uso
+ - oggi c'è: dimensione massima 100MB (413), estensione (csv/txt/xlsx/xls), header con colonne SKU e OE (alias), righe senza SKU o OE e coppie duplicate scartate e contate, 400 se non resta nessuna riga valida
+ - manca:
+   - cap sul numero di righe (memoria/tempi della conversione in xlsx e del sqlite, misurare sul tracciato completo Prasco)
+   - soglia sulle righe scartate (es. oltre il 5-10% senza SKU/OE → rifiuto, oggi passa in silenzio)
+   - controllo sul calo rispetto alle cross in uso (es. file nuovo con molte meno righe/SKU del precedente → rifiuto o conferma esplicita, per non svuotare le cross con un file troncato)
+   - formato dei codici: lunghezza massima, caratteri ammessi; lunghezza massima della descrizione
+   - più OE "uguali" per lo stesso SKU dopo la normalizzazione (es. `A2088200161` / `2088200161`): oggi restano entrambi
+   - eventuale modalità di sola verifica (dry run) che restituisce le statistiche senza salvare
+ - collegati: "Cross Prasco SKU → OE"
+
 **[TODO:MID]** Cross nelle API di search e nelle altre API #prasco\
 dopo l'applicability, gestire SKU/OE delle cross anche nelle API di search (part-search, ...) e nelle altre API che ricevono o restituiscono codici ricambio
 
