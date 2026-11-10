@@ -127,7 +127,7 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
    - senza descrizione in input, si usa la descrizione del tracciato; SKU non trovato e senza descrizione: riga non cercata (`cross.part_numbers` vuoto e niente `cross.description`)
    - OpenAPI `1.0.0-draft-14`; CHANGELOG da fare in release (skill `release-notes`)
  - da verificare: con S3 reale (scrittura sul bucket e archivio), tracciato completo Prasco (dimensione, tempi di conversione)
- - ricerca solo per descrizione (SKU non nel tracciato, nessun OE): `ai-vin-service` rispondeva 404 senza OE, quindi niente suggestions; corretto su ai-vin-service branch `claude/serene-bell-9z1i42` (commit `568d8ca`, da `dev`), da mergiare e rilasciare; vale anche per la `/part-applicability` vecchia chiamata con la sola descrizione
+ - ricerca solo per descrizione (SKU non nel tracciato, nessun OE): `ai-vin-service` rispondeva 404 senza OE, quindi niente suggestions; corretto in ai-vin-service 0.8.1 (`568d8ca`, release `e09fe5e`, in `dev` e `main`; tag `v0.8.1` da pushare a mano), da deployare; vale anche per la `/part-applicability` vecchia chiamata con la sola descrizione
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API"
 
