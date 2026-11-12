@@ -201,7 +201,8 @@ tenant ─┬─ plan (1, versionato: api abilitate, meter, limiti, seat acquist
         ├─ member (utente + ruolo nel tenant)
         ├─ api_key (hash, prefisso, permessi = sottoinsieme delle API del piano, rate limit ≤ piano, metadata)
         ├─ resolver_config (ordine, tipo plugin, parametri: es. { type: "metadata", path: "cliente_id" })
-        ├─ seat (external_id = cliente_id o key, stato, go_live, revoked_at, tipo: metered | unlimited)
+        ├─ seat (tipo: metered | unlimited, stato: active | deactivated, go_live, deactivated_at)   ← acceso da AIVIN (8.13)
+        ├─ seat_binding (seat, plugin, external_id = cliente_id o key, bound_at, bound_by)        ← associato dal cliente, una volta sola
         ├─ quota_counter (seat, meter, periodo, used, reserved)
         ├─ usage_event (request_id, seat, api, meter, unità, esito, ts)          ← fatturazione, riconciliazione
         ├─ search_log (request_id, seat, VIN, codice, codice Prasco, esito, ts)    ← Offerta art. 5, retention 6 mesi
@@ -346,10 +347,57 @@ Il report mensile deve contenere anche i **seat**: canone dal go-live del singol
 | 6 | chat: AI SDK 5→7, tool a generatore, persistenza (con `tenant_id`) |
 | 7 | skill e `query_dataset` |
 
-### 8.12 Domande aperte (nuove)
+### 8.12 Decisioni del 2026-11-12 (seconda tornata)
 
-1. **Riassegnazione di un seat**: il contratto vieta di usare lo stesso Attributo API per clienti diversi. Cambiare il `cliente_id` di un seat equivale a revoca + nuova attivazione (con fee)? Proposta: sì, il seat revocato resta nello storico.
-2. **Attivazione**: il contratto prevede 10 giorni lavorativi e la registrazione da parte di AIVIN. Con il self-service l'admin tenant assegna il seat subito, oppure lo **richiede** e l'admin piattaforma lo attiva (go-live)? Proposta: richiesta + approvazione, così il go-live (inizio canone) è una decisione di AIVIN.
-3. **`/part-applicability/cross`**: conta UdV come l'applicability? Proposta: sì, stesso meter.
-4. **Plate lookup**: per Prasco è disattivato (TODO). Se fosse attivo, la ricerca targa → VIN conta nella UdV?
-5. **Più plugin insieme**: ordine con fallback (come nel ramo licensing) o un solo plugin attivo per tenant? Proposta: lista ordinata, ma l'admin tenant ne usa uno; il fallback serve solo nelle migrazioni.
+| # | Domanda | Decisione |
+|---|---|---|
+| 1 | cambiare il `cliente_id` di un seat | equivale a disattivazione + nuova attivazione (con fee); lo storico resta |
+| 2 | attivazione | **AIVIN accende il seat** e da lì parte il canone; il seat **non si sospende** se non è associato; **l'associazione la fa il cliente** in autonomia |
+| 3 | `/part-applicability/cross` | conta UdV come l'applicability |
+| 4 | targa | la conversione targa → VIN è inclusa nella UdV, ma va **tracciata** a parte (8.14) |
+| 5 | plugin di risoluzione licenza | lista ordinata per tenant, con fallback |
+
+### 8.13 Ciclo di vita del seat
+
+```
+AIVIN accende            cliente associa                AIVIN disattiva
+     │                        │                               │
+     ▼                        ▼                               ▼
+ active, libero ──────► active, associato ─────────────► deactivated
+ (si paga dal go_live)  (external_id fisso per sempre)   (si paga fino a deactivated_at)
+```
+
+- **Accensione** (admin piattaforma): crea il seat con `go_live`; da quel giorno entra nel report di fatturazione, associato o no.
+- **Associazione** (admin tenant, self-service): lega un seat attivo e libero a un identificativo del plugin scelto: un `cliente_id` (plugin `metadata`/`header`) oppure una API key generata per il seat (plugin `api-key`). Vincolo unico `(tenant, plugin, external_id)`.
+- **L'associazione non si cambia** (decisione 1). Per servire un altro Cliente Ricambista serve un nuovo seat. Unica eccezione proposta: correggere un errore di battitura finché il seat non ha nessun `usage_event` (associazione mai usata).
+- **Chiamata con identificativo non associato**: 403 `seat_not_assigned`, con l'identificativo nel messaggio e nel log. Opzione del tenant, spenta di default: **associazione automatica** del nuovo identificativo al primo seat libero (comoda per Prasco, che così non deve passare dal pannello per ogni nuovo cliente).
+- **Seat esauriti** (nessun seat libero): stesso 403, con codice `no_free_seat`; l'admin tenant vede nel pannello quanti seat sono liberi e chiede ad AIVIN di accenderne altri.
+- **Disattivazione** (admin piattaforma, su richiesta): il seat smette di risolvere chiamate; resta nello storico e nei report del mese.
+
+### 8.14 Tracciamento della conversione targa
+
+Oggi la risoluzione del veicolo (`server/routes/v1-api.ts`, ~righe 130–150; tool `FindVehicleTool` in chat) prova prima `vehicle_id` come VIN e, se non trovato e se `AIVIN_USE_PLATE` è attivo, chiama `plate-to-vin` su ai-vin-service. La UdV non cambia (decisione 4), ma la conversione ha un costo e va contata.
+
+Proposta: **le unità di una richiesta diventano un elenco**, non un numero solo.
+
+1. **Registro d'uso per richiesta.** Il middleware `api()` (e la route della chat) apre un registro legato alla richiesta, raggiungibile da qualunque funzione con `AsyncLocalStorage`, come già fa il request id dei log. Le funzioni profonde registrano senza cambiare firma:
+   ```ts
+   usage.record('plate-lookup', 1, { found: !!optVin?.vin, cache: 'miss' })
+   ```
+2. **Meter secondari.** Oltre al meter principale dell'API (`udv`), il catalogo ha meter di componente come `plate-lookup`. Nel piano ogni meter ha un ruolo:
+   - `billable`: entra in fattura e ha un tetto (oggi solo `udv`);
+   - `tracked`: solo registrato, eventualmente con un tetto di protezione (es. N conversioni al mese per seat, per limitare il costo del provider).
+3. **`usage_event` per (richiesta, meter)**: una richiesta con targa produce due righe, `udv = 1` e `plate-lookup = 1`. Report e dashboard le aggregano separatamente.
+4. **`search_log`**: salva `vehicle_id` com'è arrivato, il VIN risolto e `vehicle_id_kind` (`vin` | `plate`), così l'export per Prasco mostra quando è stata usata la targa.
+5. **Costo reale.** La chiamata al provider avviene solo se ai-vin-service non ha la targa in cache. Proposta: ai-vin-service restituisce l'esito della cache (header, es. `X-Aivin-Cache: hit|miss`), registrato come attributo `cache`; i report distinguono conversioni servite dalla cache e chiamate al provider.
+6. **Meno conversioni inutili.** Oggi un VIN valido ma non in catalogo scatena comunque `plate-to-vin`. Controllo di formato prima del fallback: se `vehicle_id` ha la forma di un VIN (17 caratteri, alfabeto senza I/O/Q) non si prova la targa. In alternativa, campo opzionale `vehicle_id_type` nella richiesta.
+7. **Tetto sulla conversione** (se configurato): si prenota 1 `plate-lookup` solo quando `vehicle_id` non ha forma di VIN, e si conferma 0 se la conversione non è servita.
+
+La stessa infrastruttura serve per qualunque costo interno futuro (chiamate LLM, provider di catalogo a consumo), senza toccare il contratto con il cliente.
+
+### 8.15 Domande aperte
+
+1. **Associazione automatica** al primo seat libero (8.13): la vuoi come opzione del tenant?
+2. **Correzione di un'associazione mai usata** (8.13): ammessa?
+3. **Tetto di protezione sulle conversioni targa** (8.14): serve, e su che base (per seat, per tenant)?
+4. **Cache della targa in ai-vin-service**: va bene esporre l'esito cache verso ai-vin-app (modifica anche su ai-vin-service)?
