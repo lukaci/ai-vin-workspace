@@ -345,8 +345,8 @@ Il report mensile deve contenere anche i **seat**: canone dal go-live del singol
 | 1 | Better Auth (utenti, organizzazioni, admin, API key) al posto di JWT/env/Clerk; `audit_log` (8.17) |
 | 2 | piano per tenant, guardia API abilitate, rate limit da DB (gateway rimontato con provider DB) |
 | 3 | seat e resolver configurabili, catalogo meter, quote con reserve/commit, `usage_event`, `search_log`, retention |
-| 4 | export e import via API, schedulazioni per tenant, report mensile |
-| 5 | pannello admin piattaforma e tenant |
+| 4 | datasets versionati (cross come tipo vincolato), export e import via API, schedulazioni per tenant, report mensile |
+| 5 | viste Dashboard, Datasets, Export, Licenze; pannello admin piattaforma e tenant |
 | 6 | chat: AI SDK 5→7, tool a generatore, persistenza (con `tenant_id`) |
 | 7 | skill e `query_dataset` |
 
