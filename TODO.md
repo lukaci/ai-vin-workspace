@@ -71,9 +71,10 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
+**[DOING]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
 sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
  - sequenza: dopo "Piattaforma F4", prima di "Piattaforma F6"
+ - spec: `docs/platform/F5.1-views-foundation.md`, `F5.2-licenses-admin-views.md`, `F5.3-datasets-exports-views.md` su `feat/dev/platform`
  - Dashboard (chiamate entrate/riuscite/fallite/rifiutate per giorno e cliente, UdV per seat, warning su `seat_not_assigned` con azione "associa"), Datasets, Export (elenco, programmazioni, on demand), Licenze (seat, associazioni, import, plugin, API key), Amministrazione (membri, audit), Piattaforma (tenant, piani, accensione seat, rate limit, audit globale)
  - collegati: "Pannello di amministrazione", "Piattaforma F6"
 
