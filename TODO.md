@@ -71,17 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F1: Better Auth e audit log #piattaforma\
-utenti, tenant, ruoli e API key con Better Auth; audit delle operazioni (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.6, 8.17)
- - sequenza: dopo "Piattaforma F0", prima di "Piattaforma F2"
- - decisioni 2026-11-12: niente registrazione libera (solo admin/inviti, via pagina SignUp e Clerk); key di `AUTH_API_KEYS` importate con lo stesso valore (hash SHA-256), Prasco non cambia nulla; utenti di `AUTH_USERS` creati una volta (AIVIN → admin piattaforma via `AIVIN_PLATFORM_ADMINS`, gli altri admin del tenant); organizzazione di default con id = `DEFAULT_TENANT_ID` (nessuna migrazione dei dati)
- - spec: `docs/platform/F1.1-better-auth.md`, `F1.2-audit-log.md` su `feat/dev/platform`
- - `better-auth` con plugin `organization` (tenant, membri, inviti, ruoli), `admin` (admin piattaforma AIVIN), `@better-auth/api-key` (key dell'organizzazione, `permissions` per API, `metadata`)
-   - api-key: disattivare il rate limit di default (10 richieste/giorno); non usare `remaining`/`refill` per le quote; `permissions` impostati solo lato server; verificare la key senza permessi e controllare l'abilitazione nella guardia (con permesso mancante risponde `KEY_NOT_FOUND`); cache breve della verifica
- - sostituisce: JWT custom (`server/lib/auth.ts`), `AUTH_USERS`/`AUTH_API_KEYS` da env, dipendenze Clerk inutilizzate
- - `audit_log` solo append, scritto nella stessa transazione della modifica (helper `audited(...)`), eventi di accesso dagli hook di Better Auth; retention da decidere (durata contratto + verifiche, GDPR)
- - collegati: "Piattaforma F0", "Piattaforma F2"
-
 **[TODO:MID]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
 gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
  - sequenza: dopo "Piattaforma F1", prima di "Piattaforma F3"
@@ -214,6 +203,20 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F1: Better Auth e audit log #piattaforma\
+utenti, tenant, ruoli e API key con Better Auth; audit delle operazioni (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.6, 8.17)
+ - sequenza: dopo "Piattaforma F0", prima di "Piattaforma F2"
+ - decisioni 2026-11-12: niente registrazione libera (solo admin/inviti, via pagina SignUp e Clerk); key di `AUTH_API_KEYS` importate con lo stesso valore (hash SHA-256), Prasco non cambia nulla; utenti di `AUTH_USERS` creati una volta (AIVIN → admin piattaforma via `AIVIN_PLATFORM_ADMINS`, gli altri admin del tenant); organizzazione di default con id = `DEFAULT_TENANT_ID` (nessuna migrazione dei dati)
+ - spec: `docs/platform/F1.1-better-auth.md`, `F1.2-audit-log.md` su `feat/dev/platform`
+ - `better-auth` con plugin `organization` (tenant, membri, inviti, ruoli), `admin` (admin piattaforma AIVIN), `@better-auth/api-key` (key dell'organizzazione, `permissions` per API, `metadata`)
+   - api-key: disattivare il rate limit di default (10 richieste/giorno); non usare `remaining`/`refill` per le quote; `permissions` impostati solo lato server; verificare la key senza permessi e controllare l'abilitazione nella guardia (con permesso mancante risponde `KEY_NOT_FOUND`); cache breve della verifica
+ - sostituisce: JWT custom (`server/lib/auth.ts`), `AUTH_USERS`/`AUTH_API_KEYS` da env, dipendenze Clerk inutilizzate
+ - `audit_log` solo append, scritto nella stessa transazione della modifica (helper `audited(...)`), eventi di accesso dagli hook di Better Auth; retention da decidere (durata contratto + verifiche, GDPR)
+ - collegati: "Piattaforma F0", "Piattaforma F2"
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F1.1 merge `523e397`, F1.2 merge (vedi `git log`); esiti nelle spec `docs/platform/F1.*.md`
+ - nuove variabili: `AUTH_BASE_URL` (obbligatoria: URL pubblico, Better Auth controlla l'Origin del login), `AIVIN_PLATFORM_ADMINS`, `AIVIN_DEFAULT_TENANT_NAME`, `AIVIN_DEFAULT_TENANT_SLUG`; `AUTH_USERS`/`AUTH_API_KEYS` importate al boot e poi rimovibili
+ - da decidere in F2: il ruolo `admin` di organizzazione (dato agli utenti Prasco) non può gestire le API key, solo `owner`
 
 **[DONE]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
 base comune di ai-vin-app per tutte le fasi successive (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 5.2 punto 4, 8.3, 8.8)
