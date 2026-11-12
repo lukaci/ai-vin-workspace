@@ -71,20 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
-licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
- - sequenza: dopo "Piattaforma F2", prima di "Piattaforma F4"
- - spec: `docs/platform/F3.1-seats.md`, `F3.2-metering-quotas.md`, `F3.3-search-log-plate.md` su `feat/dev/platform`
- - scelta: chiamate da sessione (SPA, personale AIVIN/Prasco) alle API misurate non risolvono un seat e non hanno tetto, ma sono registrate come uso interno
- - seat: AIVIN accende (canone da `go_live`, anche se non associato) e disattiva; tipo `metered` / `unlimited` (filiali/QA)
- - associazioni (cliente, self-service): assegna, sospende (403 `seat_suspended`), riassegna; storico con intervalli; import da elenco con anteprima (riuso parsing e analisi colonne dei datasets); nessuna associazione automatica
- - plugin di risoluzione ordinati per tenant: `api-key`, `metadata` (path, es. `cliente_id`), `header`; identificativo non associato → 403 `seat_not_assigned`
- - meter: `udv` (VIN trovato, `ceil(righe/10)` per VIN; anche `/part-applicability/cross`), `plate-lookup` (tracciato, tetto mensile per seat, 429 `plate_limit`), `request`; altre API disabilitate per Prasco
- - quote: prenotazione del massimo, conferma del reale, rilascio su errore (update atomico su Postgres); oltre il tetto 429 fino al mese successivo
- - registro d'uso per richiesta con `AsyncLocalStorage`; tabelle `request_log` (tutte le chiamate, esito e motivo del rifiuto), `usage_event`, `search_log` (Offerta art. 5, retention 6 mesi)
- - controllo di formato VIN prima del fallback targa
- - collegati: "Licenze con abilitazione per singola API", "Prasco: disattivare le targhe", "Piattaforma F4"
-
 **[TODO:MID]** Piattaforma F4: datasets versionati, export e report #piattaforma\
 cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
  - sequenza: dopo "Piattaforma F3", prima di "Piattaforma F5"
@@ -196,6 +182,25 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
+licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
+ - sequenza: dopo "Piattaforma F2", prima di "Piattaforma F4"
+ - spec: `docs/platform/F3.1-seats.md`, `F3.2-metering-quotas.md`, `F3.3-search-log-plate.md` su `feat/dev/platform`
+ - scelta: chiamate da sessione (SPA, personale AIVIN/Prasco) alle API misurate non risolvono un seat e non hanno tetto, ma sono registrate come uso interno
+ - seat: AIVIN accende (canone da `go_live`, anche se non associato) e disattiva; tipo `metered` / `unlimited` (filiali/QA)
+ - associazioni (cliente, self-service): assegna, sospende (403 `seat_suspended`), riassegna; storico con intervalli; import da elenco con anteprima (riuso parsing e analisi colonne dei datasets); nessuna associazione automatica
+ - plugin di risoluzione ordinati per tenant: `api-key`, `metadata` (path, es. `cliente_id`), `header`; identificativo non associato → 403 `seat_not_assigned`
+ - meter: `udv` (VIN trovato, `ceil(righe/10)` per VIN; anche `/part-applicability/cross`), `plate-lookup` (tracciato, tetto mensile per seat, 429 `plate_limit`), `request`; altre API disabilitate per Prasco
+ - quote: prenotazione del massimo, conferma del reale, rilascio su errore (update atomico su Postgres); oltre il tetto 429 fino al mese successivo
+ - registro d'uso per richiesta con `AsyncLocalStorage`; tabelle `request_log` (tutte le chiamate, esito e motivo del rifiuto), `usage_event`, `search_log` (Offerta art. 5, retention 6 mesi)
+ - controllo di formato VIN prima del fallback targa
+ - collegati: "Licenze con abilitazione per singola API", "Prasco: disattivare le targhe", "Piattaforma F4"
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F3.1 merge `c05fc36`, F3.2 merge `46a0660`, F3.3 merge (vedi `git log`); esiti nelle spec `docs/platform/F3.*.md`
+ - per attivare il contratto Prasco: piano con `apis['part-applicability'|'part-applicability-cross'].meter = 'udv'`, `meters.udv = { includedPerSeat: 250, extraPerSeat: 100 }`, `meters['plate-lookup']` se serve, `seats.purchased`, `resolvers: ['metadata']`; resolver del tenant `metadata` su `metadata.cliente_id`; seat accesi e associati (anche da import)
+ - il `search_log` si scrive solo per le API misurate (quindi non con il piano permissivo di default)
+ - nuove variabili: `AIVIN_REQUEST_LOG_RETENTION_DAYS` (400), `AIVIN_SEARCH_LOG_RETENTION_MONTHS` (6); OpenAPI `1.0.0-draft-17`
+ - fix: un VIN valido non trovato non chiama più `plate-to-vin` (v1 e chat)
 
 **[DONE]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
 gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
