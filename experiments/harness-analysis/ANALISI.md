@@ -266,11 +266,47 @@ Sostituisce: auth custom con JWT (`server/lib/auth.ts`), utenti e key da env (`A
 
 Alternativa più minimale: tabella `api_key` nostra (hash SHA-256, prefisso) e auth attuale. Regge per le key, non per inviti e ruoli del pannello. Esclusi: Unkey (servizio esterno o self-host pesante), Clerk (servizio esterno, Organizations a pagamento).
 
-### 8.7 Gateway configurabile
+### 8.7 Gateway: pochi middleware Hono, non un modulo a parte
 
-- **API abilitate**: guardia che legge piano ∩ permessi della key (cache in memoria con versione: l'admin che salva incrementa la versione, le istanze ricaricano entro pochi secondi).
-- **Rate limit**: politiche su DB (per tenant, per key, per API), contatori **in memoria** per istanza. Il rate limit protegge il servizio e non è contrattuale: con N istanze basta dividere il limite per N o accettare l'approssimazione. Le **quote** contrattuali invece stanno nel DB (8.5).
-- Il modulo `server/gateway/` (ban, rate limit, finalize) resta valido: si sostituisce `StaticConfigProvider` con un provider su DB, come già previsto nel suo README ("v1 → v2 Migration Path").
+Rivisto il 2026-11-12. `server/gateway/` (circa 1700 righe senza test, montaggio commentato) e `server/licensing/` (circa 1870, solo su `feat/dev/licensing`) sono già in-process, ma nati come "gateway" separato dall'app: per questo duplicano cose che l'app ha già o che la nuova struttura rende superflue.
+
+| Pezzo del gateway/licensing | Nella nuova struttura |
+|---|---|
+| `request-context` (request id, start, IP) | già fatto da `apiLogger` di `@ai-vin/logging` |
+| `body-limit` | `bodyLimit` di Hono (`hono/body-limit`) |
+| `auth` (API key da YAML/env) | Better Auth API key (8.6) |
+| `routing/canonical` + `matcher` + `route-resolve` (tabella `METHOD /path`) | **superflui**: la rotta la risolve Hono; ogni rotta dichiara il suo id API |
+| `allow-list` per client | piano ∩ permessi della key |
+| `rate-limit` + store in memoria | **da tenere** (logica finestre), con politiche da DB |
+| `ban-engine` (ban automatici per IP/client) | sostituito da sospensione di key/tenant da admin; ban automatici solo se ci saranno endpoint pubblici |
+| `finalize` (riga JSON + usage) | log già da `apiLogger`; l'uso diventa `usage_event` (solo API misurate) |
+| licensing: plugin, finestre di calendario, reserve/commit, errori Problem Details | **da tenere** come logica, con config e contatori su DB |
+| licensing: config YAML, validazione incrociata con la tabella rotte del gateway | superflua |
+
+Proposta: **un middleware globale e uno per rotta**, con la descrizione dell'API attaccata alla rotta stessa.
+
+```ts
+// globale su /api/v1/*: apiLogger (già c'è) → bodyLimit → authenticate (key → tenant, key)
+app.use('/api/v1/*', authenticate())
+
+// per rotta: l'id API è lo stesso del log (apiName), del piano e dei permessi della key
+app.post('/part-applicability', api({ id: 'part-applicability', meter: udv }), handler)
+app.post('/async/part-applicability', api({ id: 'part-applicability', meter: udv, async: true }), handler)
+app.get('/exports/:id/download', api({ id: 'exports' }), handler)
+```
+
+`api()` fa, in ordine: abilitazione (piano ∩ key) → rate limit → risoluzione seat (solo se c'è un meter) → prenotazione quota → `await next()` → conferma unità reali o rilascio. Il "dopo" sta nello stesso middleware, perché Hono permette codice dopo `next()`. Per le API async la prenotazione passa al job, che conferma alla fine.
+
+Vantaggi:
+- un posto solo dove si legge cosa fa un'API (id, meter, async), accanto all'handler: niente tabella rotte da tenere allineata;
+- una rotta senza `api()` è un errore visibile in review (si può anche far fallire l'avvio: ogni rotta sotto `/api/v1` deve avere un descrittore);
+- stima: 400–600 righe al posto di circa 3600, riusando i test di finestre, limiti e reserve/commit del ramo licensing.
+
+Multi-istanza:
+- **rate limit**: contatori in memoria per istanza, politiche da DB con cache versionata. Protegge il servizio e non è contrattuale: con N istanze si accetta l'approssimazione (o limite/N);
+- **quote**: sempre su Postgres, update atomico condizionato: esatte anche con N istanze.
+
+Scartati: gateway esterni (Kong, Envoy, AWS API Gateway con usage plan). Aggiungono un servizio, contano richieste e non UdV, e non sanno leggere il `cliente_id` dai metadata del body.
 
 ### 8.8 Storage: Postgres
 
