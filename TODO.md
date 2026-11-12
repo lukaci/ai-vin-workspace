@@ -71,9 +71,10 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
+**[DOING]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
 consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
  - sequenza: dopo "Piattaforma F5", prima di "Piattaforma F7"
+ - spec: `docs/platform/F6-chat-ai-sdk-7.md` su `feat/dev/platform`
  - migrazione AI SDK 5→6→7 con i codemod (verificato su Bun 1.4.4)
  - tool con `execute` a generatore (risultati preliminari) al posto di `data-tool-incremental` / `useChatWithIncremental`
  - persistenza `chat_thread` / `chat_message` con `tenant_id`, salvataggio in `onEnd`, id lato server, `consumeStream`; resume dello stream rinviato
