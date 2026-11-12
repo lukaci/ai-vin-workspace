@@ -208,6 +208,8 @@ tenant ─┬─ plan (1, versionato: api abilitate, meter, limiti, seat acquist
         ├─ search_log (request_id, seat, VIN, codice, codice Prasco, esito, ts)    ← Offerta art. 5, retention 6 mesi
         ├─ schedule (tipo job, cron, timezone, parametri, next_run_at)
         ├─ job (tipo, payload, stato, tentativi, chiave idempotenza)
+        ├─ dataset (nome, tipo: generic | cross | ..., versione attiva)                    ← 8.18
+        ├─ dataset_version (file originale S3, snapshot normalizzata S3, mappatura colonne, statistiche, report di validazione, stato)
         ├─ export (tipo, periodo, chiave S3, righe, stato)
         └─ audit_log (chi, cosa, su cosa, prima/dopo, quando: solo append)             ← operazioni utente e admin (8.17)
 ```
@@ -242,7 +244,7 @@ Un piccolo catalogo in codice di **meter** (funzioni pure richiesta + risposta �
 | — | nessuna | — | API non misurata (es. `GET /jobs/:id`, export, upload cross) |
 
 - Oggi le applicability sono a VIN singolo: UdV massime = `ceil(parts.length/10)`, reali = stesse se il veicolo è trovato, 0 altrimenti. La formula per VIN distinto copre già un'eventuale API batch.
-- Piano Prasco: `part-applicability` e `part-applicability/cross` (sync e async) con meter `udv`; upload cross, export e job abilitati senza meter; **tutte le altre API disabilitate** perché il contratto non ne definisce l'unità.
+- Piano Prasco: `part-applicability` e `part-applicability/cross` (sync e async) con meter `udv`; datasets, export e job abilitati senza meter; **tutte le altre API disabilitate** perché il contratto non ne definisce l'unità.
 - Flusso: **prenota il massimo** sul `quota_counter` del periodo (update atomico condizionato: `used + reserved + n ≤ tetto`), esegue, **conferma il reale** e libera la differenza; su errore libera tutto. Prenotazioni orfane scadono (TTL, come nel ramo licensing). Le API async prenotano alla creazione del job e confermano alla fine.
 - Risposta: header con le unità consumate e residue (es. `X-Usage-Remaining`), 429 con `Retry-After` all'inizio del mese successivo quando il tetto è raggiunto.
 - Seat `unlimited` (accessi Prasco filiali/QA): nessun tetto, ma `usage_event` registrato comunque.
@@ -316,19 +318,19 @@ Con multi-tenant e più istanze come obiettivo, servono stato condiviso e operaz
 
 - `Bun.SQL` lo supporta nativamente (già usato con SQLite); Better Auth supporta Postgres.
 - Schedulazioni senza leader: un tick al minuto per istanza fa `UPDATE schedule SET next_run_at = … WHERE next_run_at <= now() … RETURNING`: una sola istanza vince ogni occorrenza; `croner` calcola il prossimo `next_run_at` dall'espressione cron salvata dall'admin. Le occorrenze saltate (deploy, fermo) si recuperano al primo tick.
-- Le snapshot sqlite locali dei dataset (cross per tenant, assembly groups) restano: sono dati di riferimento in sola lettura, versionati da ETag S3.
+- Le snapshot sqlite locali dei dataset (cross per tenant, assembly groups) restano: sono dati di riferimento in sola lettura. La versione attiva la dice il DB (`dataset.active_version_id`), non l'ETag S3 (8.18).
 - Se si vuole rinviare Postgres finché si resta a un'istanza per cliente: SQLite funziona, purché `tenant_id` sia ovunque da subito e l'SQL resti portabile. Lo sconsiglio: si testerebbero due dialetti.
 
 ### 8.9 Export e import via API
 
-- Tipi in codice: `search-log` (Offerta art. 1.c), `usage-monthly` (report UdV per seat, base della fattura), `cross-import` (import del tracciato da un path S3 o da upload).
+- Tipi in codice: `search-log` (Offerta art. 1.c), `usage-monthly` (report UdV per seat, base della fattura). L'import del tracciato cross non è più un export/import a sé: è il caricamento di una nuova versione del dataset `cross` (8.18).
 - Programmazione per tenant in `schedule` (cron + timezone + parametri), modificabile dall'admin tenant entro i tipi del piano.
 - API (tenant dalla key, abilitate senza meter):
   - `GET /v1/exports?type=&from=&to=` elenco;
   - `GET /v1/exports/:id` stato e metadati;
   - `GET /v1/exports/:id/download` → redirect a URL S3 presigned di breve durata (o stream);
   - `POST /v1/exports` export on demand (job async);
-  - l'upload cross esistente diventa un job dello stesso modulo.
+  - l'upload cross passa sotto `/v1/datasets` (8.18).
 - Retention: job giornaliero che cancella `search_log` oltre 6 mesi e gli export scaduti.
 
 ### 8.10 Fatturazione: oltre alle UdV
@@ -472,7 +474,7 @@ Tre registri diversi, per tre domande diverse:
 | licensing | modifica dei plugin di risoluzione e del loro ordine |
 | piano (AIVIN) | API abilitate, meter, tetti, seat acquistati, rate limit massimi |
 | schedulazioni ed export | creazione, modifica, cancellazione; export on demand; **download** di export (contengono dati delle ricerche) |
-| dati | upload/import cross |
+| dati | dataset: creazione, nuova versione, attivazione, rollback, cancellazione, download |
 | utenti e accesso | login riuscite e fallite, logout, inviti, cambio ruolo, rimozione membro, impersonificazione (inizio e fine, con l'admin che la fa) |
 
 **Forma di una riga**
@@ -493,3 +495,78 @@ Tre registri diversi, per tre domande diverse:
 Incrociando `audit_log` (riassegnazioni) e `request_log` (chiamate per seat e `cliente_id`) il report mensile mostra, per ogni seat, la sequenza dei `cliente_id` serviti e chi ha fatto ogni riassegnazione: è la base per la riconciliazione dell'art. 3 senza vincoli preventivi.
 
 Nel piano a fasi (8.11) l'audit entra nella fase 1 insieme a Better Auth: tutte le fasi successive che introducono operazioni lo usano da subito.
+
+### 8.18 Datasets: le cross come tipo vincolato
+
+Deciso il 2026-11-12: generalizzare. Il cliente carica dati (fogli di calcolo, CSV) come **dataset**; le cross sono un dataset di **tipo vincolato**. Gli usi futuri dei dataset generici non si approfondiscono ora, ma gestione via API e sezione "Datasets" nell'app ci sono da subito.
+
+Base esistente da riprendere (route oggi commentate in `server/index.ts`): `server/lib/datasets/` e `client/src/pages/Datasets*.tsx`, con upload wizard, analisi strutturale dei fogli, analisi colonne con LLM (`analyze.ts`), un sqlite per "schema", anteprima tabellare, query `SELECT`. Oggi è per utente (`userId`) e a cartelle ("schema"): diventa per tenant e a dataset versionati.
+
+**Modello**
+
+| Concetto | Contenuto |
+|---|---|
+| `dataset` | tenant, nome, descrizione, **tipo**, versione attiva |
+| `dataset_version` | file originale (S3), snapshot normalizzata (sqlite su S3), mappatura colonne, righe, statistiche, report di validazione, stato: `uploaded` → `validating` → `valid` / `invalid` → `active` / `archived` |
+| tipo | definito **in codice**: colonne richieste ("ruoli"), alias degli header, normalizzazione, regole di validazione, se è **singleton** (una sola versione attiva per tenant, consumata da una funzione) |
+
+Tipi iniziali:
+
+| Tipo | Ruoli colonna | Singleton | Consumato da |
+|---|---|---|---|
+| `generic` | nessuno: colonne dedotte (analisi strutturale + LLM) | no | per ora solo vista e anteprima |
+| `cross` | `sku`, `oe` obbligatori; `description` opzionale | sì | `/part-applicability/cross` e tool chat |
+| `assembly-groups` | come oggi | sì, a livello **piattaforma** (gestito da AIVIN, condiviso) | part-list, chat |
+
+Lo stesso meccanismo di tipo + ruoli + anteprima serve anche all'**import delle associazioni seat** (8.16): elenco caricato, colonne riconosciute, anteprima, applicazione. Non è un dataset da conservare, ma riusa parsing, mappatura e report.
+
+**Versioni e attivazione**
+- Ogni upload crea una **nuova versione**; la versione attiva cambia solo con un'attivazione (manuale o automatica se la validazione passa). **Rollback** = riattivare una versione precedente.
+- Per i tipi vincolati la validazione include le regole già elencate nel TODO "Cross: validazione e limiti dell'upload": righe scartate oltre soglia, calo rispetto alla versione attiva, formato dei codici, OE duplicati dopo normalizzazione. Con `dry_run` si ottiene solo il report.
+- Ingestione grande = job async (tabella `job`), con avanzamento visibile.
+- **Multi-istanza**: la verità è `dataset.active_version_id` nel DB; ogni istanza, quando cambia, scarica la snapshot sqlite della versione da S3 e la sostituisce a caldo. Chiude il TODO "Cross: sincronizzazione tra istanze" senza ETag né notifiche.
+
+**API** (stesse per SPA con sessione e per integrazioni con API key; id API `datasets`, senza meter)
+
+| Metodo e path | Uso |
+|---|---|
+| `GET /v1/datasets?type=` | elenco |
+| `POST /v1/datasets` | crea (`name`, `type`) |
+| `GET` / `PATCH` / `DELETE /v1/datasets/:id` | dettaglio, rinomina, cancellazione (409 se è il singleton attivo usato da una funzione) |
+| `POST /v1/datasets/:id/versions` | upload multipart, opzioni `mapping`, `activate: auto \| manual`, `dry_run` → 202 con job |
+| `GET /v1/datasets/:id/versions[/:v]` | storico, stato, statistiche, report di validazione |
+| `POST /v1/datasets/:id/versions/:v/activate` | attivazione o rollback |
+| `GET /v1/datasets/:id/versions/:v/download?form=original\|normalized` | URL presigned |
+| `GET /v1/datasets/:id/versions/:v/preview` | prime righe (anteprima nell'app) |
+
+- Le route interne `/api/datasets/*` di oggi spariscono: la SPA usa le stesse `/api/v1` (`requireApiKeyOrAuth` lo permette già). Meno endpoint da mantenere.
+- **Compatibilità**: `POST /v1/cross/upload` resta come alias deprecato (nuova versione del dataset `cross` del tenant, attivazione automatica) per almeno una release. Il contratto (art. 6) chiede **30 giorni di preavviso** per modifiche alle API che richiedono adattamenti a Prasco.
+
+**Vista "Datasets" nell'app**
+- Elenco: nome, tipo (badge), versione attiva, righe, ultimo aggiornamento, stato dell'ultima versione (warning se `invalid`).
+- Dettaglio: storico versioni con stato e report di validazione, attiva/rollback, download, anteprima tabellare (`table-preview.tsx` esiste).
+- Upload: il wizard esistente (`upload-wizard.tsx`) con scelta del tipo e, per i tipi vincolati, mappatura colonne → ruoli (suggerita da alias e LLM, confermata dall'utente).
+
+### 8.19 Export nel prodotto
+
+Gli export periodici li avevamo previsti (8.9: tipi, schedulazioni per tenant, API di elenco/download, retention), ma solo come API e "pagina nel pannello". Li rendo una sezione del prodotto.
+
+**Vista "Export"**
+- **Elenco**: tipo, periodo, stato, righe, dimensione, data; filtri per tipo e periodo; **download** (URL presigned, registrato nell'audit).
+- **Programmazioni** (admin tenant): tipo, frequenza (cron + timezone, con forma guidata: giornaliera, settimanale, mensile), prossima esecuzione, esito dell'ultima, attiva/disattiva, "esegui ora".
+- **Export su richiesta**: tipo + periodo → job async, compare nell'elenco quando pronto.
+- Warning se l'ultima esecuzione programmata è fallita.
+
+**Navigazione proposta**
+
+| Sezione | Contenuto | Ruoli |
+|---|---|---|
+| Ricerca | chat e ricerca VIN attuali | tutti |
+| Dashboard | chiamate entrate/riuscite/fallite/rifiutate, UdV per seat e cliente, warning (seat non associati, tetti vicini) | tenant |
+| Datasets | 8.18 | tenant |
+| Export | 8.19 | tenant |
+| Licenze | seat, associazioni, import elenco, plugin di risoluzione, API key | admin tenant |
+| Amministrazione | membri e ruoli, audit log | admin tenant |
+| Piattaforma | tenant, piani, accensione seat, rate limit, audit globale | admin AIVIN |
+
+Nel piano a fasi: i datasets entrano nella **fase 4** con export e import (base comune: upload, job, S3, presigned); la vista "Datasets" e la vista "Export" nella **fase 5** con il pannello.
