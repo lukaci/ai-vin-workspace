@@ -71,9 +71,10 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
+**[DOING]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
 base comune di ai-vin-app per tutte le fasi successive (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 5.2 punto 4, 8.3, 8.8)
  - sequenza: F0 di F0–F7; prima di "Piattaforma F1"
+ - ai-vin-app: branch di lavoro `feat/dev/platform` (da `feat/dev/prasco` `ef4cb51`), spec in `docs/platform/` (F0.1, F0.2, F0.3); task su `feat/platform/<task>`
  - Postgres via `Bun.SQL`, migrazioni; `tenant_id` su tutte le tabelle applicative
  - tabella `job` (tipo, payload, stato, tentativi, risultato, chiave di idempotenza) al posto dell'LRU in memoria di `server/lib/api/v1/jobs.ts`; tentativi del webhook salvati
  - schedulazioni su tabella `schedule` (cron + timezone, `next_run_at`): tick al minuto per istanza, claim atomico (`UPDATE … WHERE next_run_at <= now() … RETURNING`), `croner` per il prossimo `next_run_at`, recupero delle occorrenze saltate
