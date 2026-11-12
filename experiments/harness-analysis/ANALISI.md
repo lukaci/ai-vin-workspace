@@ -157,12 +157,163 @@ Ordine guidato dal contratto: prima ciò che si fattura e che l'Offerta impegna.
 
 La fase 4 è indipendente: si può anticipare, ma non sblocca nulla di contrattuale.
 
-## 7. Decisioni aperte
+## 7. Decisioni aperte (prima tornata)
 
-1. **Istanze**: ai-vin-app gira su una o più istanze, e dove? Decide SQLite su volume (con backup su S3 fatto dallo scheduler) contro Postgres gestito.
-2. **Tetto UdV**: oltre le UdV extra massime per licenza/mese, l'API **rifiuta** (429) o continua senza fatturare? Cambia la guardia.
-3. **Attributo API**: in quale campo arriva il `cliente_id`? (`metadata` della richiesta, header, API key per licenza?) Il TODO "Licenze" dice "API key e metadati, oggetto composto": va fissato in specifica.
-4. **API batch**: per il contratto è l'`/async/part-applicability` o un'API nuova?
-5. **SFTP**: obbligatorio o basta l'API?
+Risposte del 2026-11-12 nella sezione 8.1; restano aperte le 4, 6, 7 e quelle nuove della sezione 8.9.
+
+1. ~~**Istanze**~~ → una istanza per cliente oggi, da superare.
+2. ~~**Tetto UdV**~~ → oltre il tetto l'API rifiuta.
+3. ~~**Attributo API**~~ → `cliente_id` nei `metadata`, ma il meccanismo deve essere configurabile.
+4. **API batch**: oggi entrambe le applicability (`/part-applicability`, `/part-applicability/cross`, sync e async) sono **a VIN singolo** (`vehicle_id` + `parts[]`): un'API batch multi-VIN non esiste. Il metering la prevede comunque (sezione 8.5).
+5. ~~**SFTP**~~ → no, solo API (anche per scaricare gli export).
 6. **Retention del ledger UdV**: i 6 mesi dell'Offerta valgono per il registro ricerche; il ledger di fatturazione va tenuto di più (verifiche fino a due volte l'anno).
-7. **Clerk**: dipendenze presenti ma inutilizzate (auth custom). Da rimuovere o da adottare per il pannello admin.
+7. **Clerk**: dipendenze presenti ma inutilizzate (auth custom). Proposta nella sezione 8.6: sostituire con Better Auth.
+
+## 8. Aggiornamento 2026-11-12: licenze configurabili, multi-tenant, admin
+
+### 8.1 Decisioni prese
+
+| Tema | Decisione | Conseguenza |
+|---|---|---|
+| Tetto UdV | oltre il tetto mensile (incluse + extra) l'API **rifiuta** | limite rigido: serve prenotazione atomica (reserve/commit), non solo conteggio |
+| Identificazione licenza | oggi `cliente_id` nei `metadata`, ma **non fisso**: il cliente sceglie il plugin (API key, campo dei metadata, ...), genera le API key, gestisce le licenze assegnando i seat | risoluzione della licenza = configurazione per tenant su DB, non YAML |
+| Canale | niente SFTP: import ed export solo via API | area export = API di elenco e download |
+| Deploy | una istanza per cliente, vissuta come limite | progettare **multi-tenant** da subito; più istanze condivise in prospettiva |
+| UdV | concetto **solo dell'applicability** | il metering è per API: ogni API ha la sua unità; le API senza unità a contratto sono disabilitate per quel cliente |
+| Rate limit e API abilitate | **configurabili da un admin**, non fissi | gateway con configurazione su DB e pannello admin |
+
+### 8.2 Ruoli: chi configura cosa
+
+Due livelli di amministrazione, perché il cliente non deve poter superare il contratto:
+
+| Ruolo | Chi | Può |
+|---|---|---|
+| **Admin piattaforma** | AIVIN | crea i tenant; definisce il **piano** del tenant (API abilitate, unità e limiti per API, numero di seat acquistati, tetto mensile per seat, rate limit massimi, plugin di risoluzione ammessi, validità, timezone); vede tutto, sospende |
+| **Admin tenant** | Prasco | sceglie e configura il plugin di risoluzione (tra quelli ammessi); genera e revoca API key; **assegna i seat** (es. `cliente_id` → seat) entro il numero acquistato; restringe (mai allarga) API e rate limit per singola key; programma export e import; scarica export e report |
+| Operatore tenant | utenti Prasco | consultazione: dashboard aggregata, export |
+
+Regola: la configurazione effettiva è sempre **l'intersezione** piano ∩ configurazione del tenant ∩ permessi della key.
+
+### 8.3 Modello dati (essenziale)
+
+```
+tenant ─┬─ plan (1, versionato: api abilitate, meter, limiti, seat acquistati, rate limit max)
+        ├─ member (utente + ruolo nel tenant)
+        ├─ api_key (hash, prefisso, permessi = sottoinsieme delle API del piano, rate limit ≤ piano, metadata)
+        ├─ resolver_config (ordine, tipo plugin, parametri: es. { type: "metadata", path: "cliente_id" })
+        ├─ seat (external_id = cliente_id o key, stato, go_live, revoked_at, tipo: metered | unlimited)
+        ├─ quota_counter (seat, meter, periodo, used, reserved)
+        ├─ usage_event (request_id, seat, api, meter, unità, esito, ts)          ← fatturazione, riconciliazione
+        ├─ search_log (request_id, seat, VIN, codice, codice Prasco, esito, ts)    ← Offerta art. 5, retention 6 mesi
+        ├─ schedule (tipo job, cron, timezone, parametri, next_run_at)
+        ├─ job (tipo, payload, stato, tentativi, chiave idempotenza)
+        └─ export (tipo, periodo, chiave S3, righe, stato)
+```
+
+Tutte le tabelle applicative hanno `tenant_id`: è ciò che permette di passare da "una istanza per cliente" a "più clienti per istanza" senza riscrivere.
+
+### 8.4 Risoluzione della licenza a plugin
+
+Il ramo `feat/dev/licensing` ha già l'idea giusta (plugin ordinati, il primo che risolve vince, l'engine resta unico). Cambia la fonte della configurazione: da YAML a `resolver_config` del tenant.
+
+Plugin previsti:
+
+| Tipo | Parametri | Seat = |
+|---|---|---|
+| `api-key` | — | la key (una key per Cliente Ricambista) |
+| `metadata` | path nel body (es. `cliente_id`, `customer.code`) | il valore trovato |
+| `header` | nome header | il valore dell'header |
+
+- Il plugin estrae solo l'identificativo: validità, limiti e conteggio restano all'engine, uguali per tutti i plugin.
+- Identificativo assente o sconosciuto: **rifiuto** (403) di default. L'attivazione automatica di un seat al primo uso, se mai servisse, va abilitata dall'admin piattaforma (consuma un seat acquistato).
+- Confine di fiducia: con `metadata`/`header` la key autentica il server Prasco e il seat lo dichiara Prasco; il contratto già prevede la verifica a posteriori (riconciliazione con i registri ordini), che il nostro `usage_event` rende possibile.
+
+### 8.5 Metering per API
+
+Un piccolo catalogo in codice di **meter** (funzioni pure richiesta + risposta → unità); il piano assegna a ogni API abilitata il suo meter e i limiti.
+
+| Meter | Unità | Massimo prima dell'esecuzione | Valore reale (dalla risposta) |
+|---|---|---|---|
+| `udv` | UdV | Σ per VIN `ceil(righe/10)` | 0 se `vehicle_found` è falso, altrimenti come il massimo |
+| `request` | chiamate | 1 | 1 se esito < 400 |
+| `vin` | VIN distinti cercati | n. VIN | VIN trovati |
+| — | nessuna | — | API non misurata (es. `GET /jobs/:id`, export, upload cross) |
+
+- Oggi le applicability sono a VIN singolo: UdV massime = `ceil(parts.length/10)`, reali = stesse se il veicolo è trovato, 0 altrimenti. La formula per VIN distinto copre già un'eventuale API batch.
+- Piano Prasco: `part-applicability` e `part-applicability/cross` (sync e async) con meter `udv`; upload cross, export e job abilitati senza meter; **tutte le altre API disabilitate** perché il contratto non ne definisce l'unità.
+- Flusso: **prenota il massimo** sul `quota_counter` del periodo (update atomico condizionato: `used + reserved + n ≤ tetto`), esegue, **conferma il reale** e libera la differenza; su errore libera tutto. Prenotazioni orfane scadono (TTL, come nel ramo licensing). Le API async prenotano alla creazione del job e confermano alla fine.
+- Risposta: header con le unità consumate e residue (es. `X-Usage-Remaining`), 429 con `Retry-After` all'inizio del mese successivo quando il tetto è raggiunto.
+- Seat `unlimited` (accessi Prasco filiali/QA): nessun tetto, ma `usage_event` registrato comunque.
+
+### 8.6 Utenti, tenant, ruoli, API key: Better Auth
+
+Il pannello admin a due livelli richiede utenti, sessioni, inviti, ruoli per tenant e API key gestite dal cliente. Scriverlo in casa è molto codice di sicurezza. **Better Auth** (`better-auth@1.7.21`, MIT, libreria, tabelle nello stesso DB) lo copre con plugin:
+
+- `organization`: tenant, membri, inviti, ruoli e permessi, anche ruoli creati a runtime (dynamic access control), team;
+- `admin`: admin piattaforma, ban, impersonificazione;
+- `@better-auth/api-key`: key intestate all'organizzazione (`references: "organization"`), salvate come hash, con `metadata` e `permissions` per API, scadenza.
+
+Verificato qui (Bun 1.4.4, `bun:sqlite`): migrazione delle tabelle, utente, organizzazione, key dell'organizzazione con permesso `part-applicability` e metadata; `verifyApiKey` accetta la key per l'API permessa e la rifiuta per un'altra.
+
+Attenzioni emerse:
+- i `permissions` di una key si impostano solo lato server (`SERVER_ONLY_PROPERTY` se arrivano da una richiesta utente): l'API admin tenant li deve validare contro il piano e poi creare la key lato server, che è comunque il comportamento voluto;
+- il **rate limit di default delle key è 10 richieste al giorno**: va disattivato e sostituito dal nostro;
+- `remaining`/`refill` non sono mesi solari né UdV: **non** usarli per le quote contrattuali;
+- con permesso mancante `verifyApiKey` risponde `KEY_NOT_FOUND`: per distinguere 401 da 403 conviene verificare la key senza permessi e controllare l'abilitazione nella nostra guardia;
+- una verifica per richiesta legge il DB: con cache breve in memoria.
+
+Sostituisce: auth custom con JWT (`server/lib/auth.ts`), utenti e key da env (`AUTH_USERS`, `AUTH_API_KEYS`), dipendenze Clerk inutilizzate.
+
+Alternativa più minimale: tabella `api_key` nostra (hash SHA-256, prefisso) e auth attuale. Regge per le key, non per inviti e ruoli del pannello. Esclusi: Unkey (servizio esterno o self-host pesante), Clerk (servizio esterno, Organizations a pagamento).
+
+### 8.7 Gateway configurabile
+
+- **API abilitate**: guardia che legge piano ∩ permessi della key (cache in memoria con versione: l'admin che salva incrementa la versione, le istanze ricaricano entro pochi secondi).
+- **Rate limit**: politiche su DB (per tenant, per key, per API), contatori **in memoria** per istanza. Il rate limit protegge il servizio e non è contrattuale: con N istanze basta dividere il limite per N o accettare l'approssimazione. Le **quote** contrattuali invece stanno nel DB (8.5).
+- Il modulo `server/gateway/` (ban, rate limit, finalize) resta valido: si sostituisce `StaticConfigProvider` con un provider su DB, come già previsto nel suo README ("v1 → v2 Migration Path").
+
+### 8.8 Storage: Postgres
+
+Con multi-tenant e più istanze come obiettivo, servono stato condiviso e operazioni atomiche: prenotazione quote, claim delle schedulazioni, job. **Un Postgres gestito** copre tutto e rende inutile Redis anche in futuro. È una parte mobile in più rispetto al file SQLite, ma l'unica.
+
+- `Bun.SQL` lo supporta nativamente (già usato con SQLite); Better Auth supporta Postgres.
+- Schedulazioni senza leader: un tick al minuto per istanza fa `UPDATE schedule SET next_run_at = … WHERE next_run_at <= now() … RETURNING`: una sola istanza vince ogni occorrenza; `croner` calcola il prossimo `next_run_at` dall'espressione cron salvata dall'admin. Le occorrenze saltate (deploy, fermo) si recuperano al primo tick.
+- Le snapshot sqlite locali dei dataset (cross per tenant, assembly groups) restano: sono dati di riferimento in sola lettura, versionati da ETag S3.
+- Se si vuole rinviare Postgres finché si resta a un'istanza per cliente: SQLite funziona, purché `tenant_id` sia ovunque da subito e l'SQL resti portabile. Lo sconsiglio: si testerebbero due dialetti.
+
+### 8.9 Export e import via API
+
+- Tipi in codice: `search-log` (Offerta art. 1.c), `usage-monthly` (report UdV per seat, base della fattura), `cross-import` (import del tracciato da un path S3 o da upload).
+- Programmazione per tenant in `schedule` (cron + timezone + parametri), modificabile dall'admin tenant entro i tipi del piano.
+- API (tenant dalla key, abilitate senza meter):
+  - `GET /v1/exports?type=&from=&to=` elenco;
+  - `GET /v1/exports/:id` stato e metadati;
+  - `GET /v1/exports/:id/download` → redirect a URL S3 presigned di breve durata (o stream);
+  - `POST /v1/exports` export on demand (job async);
+  - l'upload cross esistente diventa un job dello stesso modulo.
+- Retention: job giornaliero che cancella `search_log` oltre 6 mesi e gli export scaduti.
+
+### 8.10 Fatturazione: oltre alle UdV
+
+Il report mensile deve contenere anche i **seat**: canone dal go-live del singolo seat (art. 2, 4), attivazioni del mese (fee una tantum), UdV incluse ed eccedenti, chiamate rifiutate per tetto. Quindi `seat` tiene `go_live` e `revoked_at`, e ogni cambio di stato è registrato.
+
+### 8.11 Piano a fasi aggiornato
+
+| Fase | Contenuto |
+|---|---|
+| 0 | Postgres + migrazioni; `tenant_id` ovunque; tabella `job` al posto dell'LRU; tick schedulazioni |
+| 1 | Better Auth (utenti, organizzazioni, admin, API key) al posto di JWT/env/Clerk |
+| 2 | piano per tenant, guardia API abilitate, rate limit da DB (gateway rimontato con provider DB) |
+| 3 | seat e resolver configurabili, catalogo meter, quote con reserve/commit, `usage_event`, `search_log`, retention |
+| 4 | export e import via API, schedulazioni per tenant, report mensile |
+| 5 | pannello admin piattaforma e tenant |
+| 6 | chat: AI SDK 5→7, tool a generatore, persistenza (con `tenant_id`) |
+| 7 | skill e `query_dataset` |
+
+### 8.12 Domande aperte (nuove)
+
+1. **Riassegnazione di un seat**: il contratto vieta di usare lo stesso Attributo API per clienti diversi. Cambiare il `cliente_id` di un seat equivale a revoca + nuova attivazione (con fee)? Proposta: sì, il seat revocato resta nello storico.
+2. **Attivazione**: il contratto prevede 10 giorni lavorativi e la registrazione da parte di AIVIN. Con il self-service l'admin tenant assegna il seat subito, oppure lo **richiede** e l'admin piattaforma lo attiva (go-live)? Proposta: richiesta + approvazione, così il go-live (inizio canone) è una decisione di AIVIN.
+3. **`/part-applicability/cross`**: conta UdV come l'applicability? Proposta: sì, stesso meter.
+4. **Plate lookup**: per Prasco è disattivato (TODO). Se fosse attivo, la ricerca targa → VIN conta nella UdV?
+5. **Più plugin insieme**: ordine con fallback (come nel ramo licensing) o un solo plugin attivo per tenant? Proposta: lista ordinata, ma l'admin tenant ne usa uno; il fallback serve solo nelle migrazioni.
