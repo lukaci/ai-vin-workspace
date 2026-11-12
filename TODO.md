@@ -71,15 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
-base comune di ai-vin-app per tutte le fasi successive (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 5.2 punto 4, 8.3, 8.8)
- - sequenza: F0 di F0–F7; prima di "Piattaforma F1"
- - ai-vin-app: branch di lavoro `feat/dev/platform` (da `feat/dev/prasco` `ef4cb51`), spec in `docs/platform/` (F0.1, F0.2, F0.3); task su `feat/platform/<task>`
- - Postgres via `Bun.SQL`, migrazioni; `tenant_id` su tutte le tabelle applicative
- - tabella `job` (tipo, payload, stato, tentativi, risultato, chiave di idempotenza) al posto dell'LRU in memoria di `server/lib/api/v1/jobs.ts`; tentativi del webhook salvati
- - schedulazioni su tabella `schedule` (cron + timezone, `next_run_at`): tick al minuto per istanza, claim atomico (`UPDATE … WHERE next_run_at <= now() … RETURNING`), `croner` per il prossimo `next_run_at`, recupero delle occorrenze saltate
- - collegati: "Piattaforma F1", "Cross Prasco SKU → OE" (job async delle applicability)
-
 **[TODO:MID]** Piattaforma F1: Better Auth e audit log #piattaforma\
 utenti, tenant, ruoli e API key con Better Auth; audit delle operazioni (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.6, 8.17)
  - sequenza: dopo "Piattaforma F0", prima di "Piattaforma F2"
@@ -221,6 +212,19 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
+base comune di ai-vin-app per tutte le fasi successive (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 5.2 punto 4, 8.3, 8.8)
+ - sequenza: F0 di F0–F7; prima di "Piattaforma F1"
+ - ai-vin-app: branch di lavoro `feat/dev/platform` (da `feat/dev/prasco` `ef4cb51`), spec in `docs/platform/` (F0.1, F0.2, F0.3); task su `feat/platform/<task>`
+ - Postgres via `Bun.SQL`, migrazioni; `tenant_id` su tutte le tabelle applicative
+ - tabella `job` (tipo, payload, stato, tentativi, risultato, chiave di idempotenza) al posto dell'LRU in memoria di `server/lib/api/v1/jobs.ts`; tentativi del webhook salvati
+ - schedulazioni su tabella `schedule` (cron + timezone, `next_run_at`): tick al minuto per istanza, claim atomico (`UPDATE … WHERE next_run_at <= now() … RETURNING`), `croner` per il prossimo `next_run_at`, recupero delle occorrenze saltate
+ - collegati: "Piattaforma F1", "Cross Prasco SKU → OE" (job async delle applicability)
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F0.1 `f0afe2a` (merge `6bc879c`), F0.2 `238d4b2` (merge `f2304d1`), F0.3 (merge `aae5c84`); esiti nelle spec `docs/platform/F0.*.md`
+ - nuove variabili: `DATABASE_URL` (obbligatoria, Postgres), `AIVIN_DEFAULT_TENANT_ID`, `AIVIN_JOB_CONCURRENCY`, `AIVIN_JOB_RETENTION_DAYS`; per i test `TEST_DATABASE_URL`; `docker-compose.yml` per Postgres locale
+ - prima del merge in `feat/dev/prasco` (deploy Railway): serve un Postgres sull'ambiente e `DATABASE_URL`
+ - seguito: `server/lib/cache/lru-cache.ts` senza più utilizzi
 
 **[DONE]** plate-to-vin chiamata per YV1XZ10C5M2000000 #general\
 viene chiamata la plate-to-vin, per questo: YV1XZ10C5M2000000, è corretto? anche se nella part applicability?
