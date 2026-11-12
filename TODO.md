@@ -15,6 +15,7 @@ Ogni task: `**[STATO]** Titolo #tag`, sotto il testo (body). Nelle sezioni per p
   - `#runtime` configurazione/runtime, non nel codice
   - `#general` generale
   - `#prasco` nuove richieste Prasco
+  - `#piattaforma` consolidamento di ai-vin-app (analisi in `experiments/harness-analysis/ANALISI.md`), fasi F0–F7 da fare in sequenza
   - `#low-pri` bassa priorità
 
 ## HI
@@ -68,7 +69,74 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - da verificare: con S3 reale (scrittura sul bucket e archivio), tracciato completo Prasco (dimensione, tempi di conversione)
  - ricerca solo per descrizione (SKU non nel tracciato, nessun OE): `ai-vin-service` rispondeva 404 senza OE, quindi niente suggestions; corretto in ai-vin-service 0.8.1 (`568d8ca`, release `e09fe5e`, in `dev` e `main`; tag `v0.8.1` da pushare a mano), da deployare; vale anche per la `/part-applicability` vecchia chiamata con la sola descrizione
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
- - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API"
+ - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
+
+**[TODO:MID]** Piattaforma F0: Postgres, tenant, job e schedulazioni #piattaforma\
+base comune di ai-vin-app per tutte le fasi successive (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 5.2 punto 4, 8.3, 8.8)
+ - sequenza: F0 di F0–F7; prima di "Piattaforma F1"
+ - Postgres via `Bun.SQL`, migrazioni; `tenant_id` su tutte le tabelle applicative
+ - tabella `job` (tipo, payload, stato, tentativi, risultato, chiave di idempotenza) al posto dell'LRU in memoria di `server/lib/api/v1/jobs.ts`; tentativi del webhook salvati
+ - schedulazioni su tabella `schedule` (cron + timezone, `next_run_at`): tick al minuto per istanza, claim atomico (`UPDATE … WHERE next_run_at <= now() … RETURNING`), `croner` per il prossimo `next_run_at`, recupero delle occorrenze saltate
+ - collegati: "Piattaforma F1", "Cross Prasco SKU → OE" (job async delle applicability)
+
+**[TODO:MID]** Piattaforma F1: Better Auth e audit log #piattaforma\
+utenti, tenant, ruoli e API key con Better Auth; audit delle operazioni (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.6, 8.17)
+ - sequenza: dopo "Piattaforma F0", prima di "Piattaforma F2"
+ - `better-auth` con plugin `organization` (tenant, membri, inviti, ruoli), `admin` (admin piattaforma AIVIN), `@better-auth/api-key` (key dell'organizzazione, `permissions` per API, `metadata`)
+   - api-key: disattivare il rate limit di default (10 richieste/giorno); non usare `remaining`/`refill` per le quote; `permissions` impostati solo lato server; verificare la key senza permessi e controllare l'abilitazione nella guardia (con permesso mancante risponde `KEY_NOT_FOUND`); cache breve della verifica
+ - sostituisce: JWT custom (`server/lib/auth.ts`), `AUTH_USERS`/`AUTH_API_KEYS` da env, dipendenze Clerk inutilizzate
+ - `audit_log` solo append, scritto nella stessa transazione della modifica (helper `audited(...)`), eventi di accesso dagli hook di Better Auth; retention da decidere (durata contratto + verifiche, GDPR)
+ - collegati: "Piattaforma F0", "Piattaforma F2"
+
+**[TODO:MID]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
+gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
+ - sequenza: dopo "Piattaforma F1", prima di "Piattaforma F3"
+ - piano per tenant (admin AIVIN): API abilitate, meter e tetti per API, seat acquistati, rate limit massimi, plugin di risoluzione ammessi, validità, timezone; config effettiva = piano ∩ tenant ∩ permessi della key
+ - middleware globale `authenticate()` (key → tenant) + per rotta `api({ id, meter, async })`: abilitazione → rate limit → (seat, quota in F3) → `next()`; avvio fallito se una rotta di `/api/v1` non ha il descrittore; id API = nome logico dei log (`apiName`)
+ - rate limit: politiche su DB con cache versionata, contatori in memoria per istanza
+ - sostituisce `server/gateway/` e `server/licensing/` (ramo `feat/dev/licensing`, `1bd233b`): riusare logica di finestre, limiti, reserve/commit ed errori, con i loro test
+ - collegati: "Licenze con abilitazione per singola API", "Piattaforma F3"
+
+**[TODO:MID]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
+licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
+ - sequenza: dopo "Piattaforma F2", prima di "Piattaforma F4"
+ - seat: AIVIN accende (canone da `go_live`, anche se non associato) e disattiva; tipo `metered` / `unlimited` (filiali/QA)
+ - associazioni (cliente, self-service): assegna, sospende (403 `seat_suspended`), riassegna; storico con intervalli; import da elenco con anteprima (riuso parsing e analisi colonne dei datasets); nessuna associazione automatica
+ - plugin di risoluzione ordinati per tenant: `api-key`, `metadata` (path, es. `cliente_id`), `header`; identificativo non associato → 403 `seat_not_assigned`
+ - meter: `udv` (VIN trovato, `ceil(righe/10)` per VIN; anche `/part-applicability/cross`), `plate-lookup` (tracciato, tetto mensile per seat, 429 `plate_limit`), `request`; altre API disabilitate per Prasco
+ - quote: prenotazione del massimo, conferma del reale, rilascio su errore (update atomico su Postgres); oltre il tetto 429 fino al mese successivo
+ - registro d'uso per richiesta con `AsyncLocalStorage`; tabelle `request_log` (tutte le chiamate, esito e motivo del rifiuto), `usage_event`, `search_log` (Offerta art. 5, retention 6 mesi)
+ - controllo di formato VIN prima del fallback targa
+ - collegati: "Licenze con abilitazione per singola API", "Prasco: disattivare le targhe", "Piattaforma F4"
+
+**[TODO:MID]** Piattaforma F4: datasets versionati, export e report #piattaforma\
+cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
+ - sequenza: dopo "Piattaforma F3", prima di "Piattaforma F5"
+ - `dataset` / `dataset_version`, tipi in codice: `generic`, `cross` (singleton per tenant), `assembly-groups` (piattaforma); attivazione, rollback, `dry_run`; versione attiva nel DB, snapshot sqlite per istanza scaricata da S3 quando cambia
+ - API `/v1/datasets` (elenco, crea, versioni, attiva, download presigned, anteprima), usate anche dalla SPA al posto di `/api/datasets/*`; `POST /v1/cross/upload` come alias deprecato (preavviso di 30 giorni, Contratto art. 6)
+ - export: `search-log` (Offerta art. 1.c), `usage-monthly` (UdV e seat per la fattura, seat con più `cliente_id` nel mese evidenziati); API `/v1/exports` (elenco, stato, download presigned, on demand); schedulazioni per tenant; retention
+ - collegati: "Cross: sincronizzazione tra istanze", "Cross: validazione e limiti dell'upload", "Cross Prasco SKU → OE", "Piattaforma F5"
+
+**[TODO:MID]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
+sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
+ - sequenza: dopo "Piattaforma F4", prima di "Piattaforma F6"
+ - Dashboard (chiamate entrate/riuscite/fallite/rifiutate per giorno e cliente, UdV per seat, warning su `seat_not_assigned` con azione "associa"), Datasets, Export (elenco, programmazioni, on demand), Licenze (seat, associazioni, import, plugin, API key), Amministrazione (membri, audit), Piattaforma (tenant, piani, accensione seat, rate limit, audit globale)
+ - collegati: "Pannello di amministrazione", "Piattaforma F6"
+
+**[TODO:MID]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
+consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
+ - sequenza: dopo "Piattaforma F5", prima di "Piattaforma F7"
+ - migrazione AI SDK 5→6→7 con i codemod (verificato su Bun 1.4.4)
+ - tool con `execute` a generatore (risultati preliminari) al posto di `data-tool-incremental` / `useChatWithIncremental`
+ - persistenza `chat_thread` / `chat_message` con `tenant_id`, salvataggio in `onEnd`, id lato server, `consumeStream`; resume dello stream rinviato
+ - collegati: "Piattaforma F7"
+
+**[TODO:MID]** Piattaforma F7: skill e query sui datasets #piattaforma\
+nuove capacità dell'agente (analisi: `experiments/harness-analysis/ANALISI.md`, sezione 5.2 punti 2–3)
+ - sequenza: dopo "Piattaforma F6", ultima fase
+ - skill `skills/<nome>/SKILL.md`: nome e descrizione nel prompt, tool `load_skill` / `read_skill_file`
+ - tool `query_dataset` (solo `SELECT`, limite righe) sui dataset del tenant
+ - collegati: "Piattaforma F6"
 
 **[TODO:MID]** Prasco: disattivare le targhe #runtime\
 prasco: disattivare le targhe
@@ -97,6 +165,7 @@ gestione dei 429, se ne becco uno, vado al prossimo provider censito
 **[TODO:MID]** Cross: sincronizzazione tra istanze #prasco\
 debito tecnico: l'upload delle cross aggiorna il sqlite solo dell'istanza che riceve la chiamata (senza reload completo); con più istanze di ai-vin-app le altre restano col dato vecchio fino al loro reload
  - opzioni: reload periodico se cambia l'oggetto sul bucket (ETag/LastModified), notifica tra istanze, oppure storage condiviso al posto del sqlite locale
+ - scelta: risolto dentro "Piattaforma F4" (versione attiva nel DB, snapshot per istanza)
 
 **[TODO:MID]** Cross: validazione e limiti dell'upload #prasco\
 rafforzare la validazione del tracciato in `POST /api/v1/cross/upload` (ai-vin-app, `server/lib/cross/parse.ts`, `cross.ts`), prima che sostituisca le cross in uso
@@ -108,7 +177,8 @@ rafforzare la validazione del tracciato in `POST /api/v1/cross/upload` (ai-vin-a
    - formato dei codici: lunghezza massima, caratteri ammessi; lunghezza massima della descrizione
    - più OE "uguali" per lo stesso SKU dopo la normalizzazione (es. `A2088200161` / `2088200161`): oggi restano entrambi
    - eventuale modalità di sola verifica (dry run) che restituisce le statistiche senza salvare
- - collegati: "Cross Prasco SKU → OE"
+ - da fare dentro "Piattaforma F4", come validazione del tipo di dataset `cross`
+ - collegati: "Cross Prasco SKU → OE", "Piattaforma F4"
 
 **[TODO:MID]** Cross nelle API di search e nelle altre API #prasco\
 dopo l'applicability, gestire SKU/OE delle cross anche nelle API di search (part-search, ...) e nelle altre API che ricevono o restituiscono codici ricambio
@@ -118,9 +188,11 @@ gestione licenze, con granularità abilitazione singole API
  - capire come gestire i front-end e le licenze per le filiali
  - licenze che funzionano con API key e metadati (da verificare in segnalazioni Pérasco, ma era ok, oggetto composto, secondo livello)
  - counter delle UdV secondo quanto scritto a contratto
+ - assorbito da "Piattaforma F2" (API abilitate, rate limit) e "Piattaforma F3" (seat, plugin, UdV)
 
 **[TODO:MID]** Pannello di amministrazione #prasco\
 pannello di amministrazione, gestione licenze, export schedulate e scaricamento/visualizzazione di esse, elenco caricamenti/scaricamenti...
+ - assorbito da "Piattaforma F5"
 
 **[TODO:MID]** Hints con libreria portabile #prasco\
 gestire gli hints non più con libreria nativa ma con qualcosa di più portabile
