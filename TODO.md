@@ -71,9 +71,10 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F4: datasets versionati, export e report #piattaforma\
+**[DOING]** Piattaforma F4: datasets versionati, export e report #piattaforma\
 cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
  - sequenza: dopo "Piattaforma F3", prima di "Piattaforma F5"
+ - spec: `docs/platform/F4.1-datasets.md`, `F4.2-exports.md` su `feat/dev/platform`
  - `dataset` / `dataset_version`, tipi in codice: `generic`, `cross` (singleton per tenant), `assembly-groups` (piattaforma); attivazione, rollback, `dry_run`; versione attiva nel DB, snapshot sqlite per istanza scaricata da S3 quando cambia
  - API `/v1/datasets` (elenco, crea, versioni, attiva, download presigned, anteprima), usate anche dalla SPA al posto di `/api/datasets/*`; `POST /v1/cross/upload` come alias deprecato (preavviso di 30 giorni, Contratto art. 6)
  - export: `search-log` (Offerta art. 1.c), `usage-monthly` (UdV e seat per la fattura, seat con più `cliente_id` nel mese evidenziati); API `/v1/exports` (elenco, stato, download presigned, on demand); schedulazioni per tenant; retention
