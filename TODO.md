@@ -71,17 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
-gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
- - sequenza: dopo "Piattaforma F1", prima di "Piattaforma F3"
- - decisione 2026-11-12: ruoli del tenant `admin` (gestisce API key, membri, poi seat/schedulazioni/export) e `operator` (sola lettura); gli utenti Prasco restano `admin`; `owner` non dato ai tenant
- - spec: `docs/platform/F2.1-roles-and-plans.md`, `F2.2-api-guard-rate-limits.md` su `feat/dev/platform`
- - piano per tenant (admin AIVIN): API abilitate, meter e tetti per API, seat acquistati, rate limit massimi, plugin di risoluzione ammessi, validità, timezone; config effettiva = piano ∩ tenant ∩ permessi della key
- - middleware globale `authenticate()` (key → tenant) + per rotta `api({ id, meter, async })`: abilitazione → rate limit → (seat, quota in F3) → `next()`; avvio fallito se una rotta di `/api/v1` non ha il descrittore; id API = nome logico dei log (`apiName`)
- - rate limit: politiche su DB con cache versionata, contatori in memoria per istanza
- - sostituisce `server/gateway/` e `server/licensing/` (ramo `feat/dev/licensing`, `1bd233b`): riusare logica di finestre, limiti, reserve/commit ed errori, con i loro test
- - collegati: "Licenze con abilitazione per singola API", "Piattaforma F3"
-
 **[TODO:MID]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
 licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
  - sequenza: dopo "Piattaforma F2", prima di "Piattaforma F4"
@@ -205,6 +194,21 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
+gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
+ - sequenza: dopo "Piattaforma F1", prima di "Piattaforma F3"
+ - decisione 2026-11-12: ruoli del tenant `admin` (gestisce API key, membri, poi seat/schedulazioni/export) e `operator` (sola lettura); gli utenti Prasco restano `admin`; `owner` non dato ai tenant
+ - spec: `docs/platform/F2.1-roles-and-plans.md`, `F2.2-api-guard-rate-limits.md` su `feat/dev/platform`
+ - piano per tenant (admin AIVIN): API abilitate, meter e tetti per API, seat acquistati, rate limit massimi, plugin di risoluzione ammessi, validità, timezone; config effettiva = piano ∩ tenant ∩ permessi della key
+ - middleware globale `authenticate()` (key → tenant) + per rotta `api({ id, meter, async })`: abilitazione → rate limit → (seat, quota in F3) → `next()`; avvio fallito se una rotta di `/api/v1` non ha il descrittore; id API = nome logico dei log (`apiName`)
+ - rate limit: politiche su DB con cache versionata, contatori in memoria per istanza
+ - sostituisce `server/gateway/` e `server/licensing/` (ramo `feat/dev/licensing`, `1bd233b`): riusare logica di finestre, limiti, reserve/commit ed errori, con i loro test
+ - collegati: "Licenze con abilitazione per singola API", "Piattaforma F3"
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F2.1 merge `4b39dfd`, F2.2 merge (vedi `git log`); esiti nelle spec `docs/platform/F2.*.md`
+ - piano del tenant via `PUT /api/admin/tenants/:id/plan` (admin piattaforma); al boot il tenant di default ha un piano con tutte le API abilitate: il piano Prasco da contratto (solo applicability, cross, upload, job) va impostato da AIVIN
+ - nuova variabile: `AIVIN_DEFAULT_RATE_LIMIT` (`<limit>/<windowSec>`, default `60/60`); OpenAPI `1.0.0-draft-15` (403 con `code`, 429)
+ - rimossi `server/gateway/`, `docs/gateway-spec-v1.md`, `examples/`, `server/lib/cache/lru-cache.ts`
 
 **[DONE]** Piattaforma F1: Better Auth e audit log #piattaforma\
 utenti, tenant, ruoli e API key con Better Auth; audit delle operazioni (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.6, 8.17)
