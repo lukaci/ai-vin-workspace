@@ -401,3 +401,50 @@ La stessa infrastruttura serve per qualunque costo interno futuro (chiamate LLM,
 2. **Correzione di un'associazione mai usata** (8.13): ammessa?
 3. **Tetto di protezione sulle conversioni targa** (8.14): serve, e su che base (per seat, per tenant)?
 4. **Cache della targa in ai-vin-service**: va bene esporre l'esito cache verso ai-vin-app (modifica anche su ai-vin-service)?
+
+### 8.16 Decisioni del 2026-11-12 (terza tornata)
+
+| # | Tema | Decisione |
+|---|---|---|
+| 1 | associazione automatica al primo seat libero | **no**: impedirebbe al cliente di sospendere una licenza (le chiamate continuerebbero a occupare seat). Al suo posto: **import delle associazioni da un elenco**, eventualmente con l'AI per riconoscere le colonne |
+| 2 | riassegnazione | **il cliente può riassegnare** un seat. Supera la decisione 1 della sezione 8.12 (riassegnazione = nuova attivazione) |
+| 3 | tetto sulle conversioni targa | sì, **per seat**, semplice |
+| 4 | esito cache della targa | non serve ora (vedi sotto) |
+
+**Seat e associazione, rivisti** (sostituisce in parte 8.13):
+
+| Livello | Chi | Stati | Effetto sulle chiamate | Effetto sul canone |
+|---|---|---|---|---|
+| seat | AIVIN | `active` → `deactivated` | solo un seat attivo risolve | si paga da `go_live` a `deactivated_at`, associato o no |
+| associazione | cliente | `assigned` ⇄ `suspended`, `closed` (riassegnazione) | `suspended` → 403 `seat_suspended`; identificativo senza associazione → 403 `seat_not_assigned` | nessuno |
+
+- Ogni associazione ha un intervallo (`from`, `to`): riassegnare chiude quella corrente e ne apre una nuova sullo stesso seat. Lo storico dice sempre quale `cliente_id` usava quale seat in ogni momento: serve per la riconciliazione dell'art. 3.
+- Attenzione contrattuale: l'art. 2 vieta di usare un Attributo API per più Clienti Ricambisti e chiede una licenza per ogni Cliente in più. Riassegnare un seat da A (che esce) a B è una sostituzione; ruotarlo spesso tra clienti attivi aggirerebbe il contratto. Per ora nessun vincolo rigido: il report mensile **evidenzia i seat che hanno servito più di un `cliente_id` nel mese**, e AIVIN decide.
+
+**Import delle associazioni da elenco**
+- Upload CSV/XLSX dal pannello tenant, oppure via API.
+- Riconoscimento delle colonne (`cliente_id`, etichetta/ragione sociale, eventuale stato) con l'analisi colonne già presente in `server/lib/datasets/analyze.ts` (LLM `generateObject`), con conferma dell'utente.
+- **Anteprima prima di applicare**: nuove associazioni, già associati, da sospendere/riattivare, righe non valide, seat liberi insufficienti. Applicazione tutta o niente.
+
+**Viste e report del tenant**
+Serve un registro di **tutte** le chiamate, non solo di quelle misurate: `request_log`, una riga per chiamata API.
+
+| Campo | Note |
+|---|---|
+| ts, request_id, api, key | — |
+| identificativo grezzo | il `cliente_id` letto dal plugin, **anche se non risolve** |
+| seat | se risolto |
+| esito | `ok`, `failed` (errore nostro o del provider), `invalid` (400), `rejected:*` |
+| motivo del rifiuto | `api_disabled`, `rate_limited`, `seat_not_assigned`, `seat_suspended`, `quota_exceeded`, `plate_limit` |
+| unità | UdV e conversioni targa consumate (dalle righe di uso) |
+
+Nella dashboard del tenant: chiamate entrate, riuscite, fallite e rifiutate per giorno e per cliente. **Warning visivo** quando ci sono rifiuti per `seat_not_assigned` nel periodo, con l'elenco degli identificativi sconosciuti e il numero di chiamate di ciascuno, e un'azione "associa a un seat libero" (o "importa elenco"). Così il caso che l'associazione automatica voleva coprire si risolve con un clic, ma sotto il controllo del cliente.
+
+Il `request_log` contiene `cliente_id` e conteggi (consentito dall'art. 10 del Contratto); VIN e codici restano solo nel `search_log` dell'Offerta, con la sua retention a 6 mesi.
+
+**Tetto conversioni targa per seat**
+- Nel piano: `plate-lookup` con tetto mensile per seat.
+- Al tetto la richiesta con targa riceve 429 `plate_limit` (le richieste con VIN continuano). Si prenota 1 solo quando `vehicle_id` non ha la forma di un VIN.
+
+**Cache della targa (punto 4)**
+ai-vin-service tiene in cache le conversioni targa → VIN (`src/functions/plate-to-vin.ts`, `store.cached` attorno alla chiamata RapidAPI/VRM): la stessa targa chiesta una seconda volta non costa nulla. La proposta era far sapere ad ai-vin-app se la conversione è venuta dalla cache o dal provider, per misurare il **costo reale** di AIVIN. Il tetto per seat invece conta ogni conversione chiesta dal cliente, cache o no: è più semplice e prevedibile per lui. Quindi oggi non serve: si potrà aggiungere quando servirà un'analisi dei costi dei provider.
