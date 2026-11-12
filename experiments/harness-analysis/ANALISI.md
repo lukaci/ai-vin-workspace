@@ -208,7 +208,8 @@ tenant ─┬─ plan (1, versionato: api abilitate, meter, limiti, seat acquist
         ├─ search_log (request_id, seat, VIN, codice, codice Prasco, esito, ts)    ← Offerta art. 5, retention 6 mesi
         ├─ schedule (tipo job, cron, timezone, parametri, next_run_at)
         ├─ job (tipo, payload, stato, tentativi, chiave idempotenza)
-        └─ export (tipo, periodo, chiave S3, righe, stato)
+        ├─ export (tipo, periodo, chiave S3, righe, stato)
+        └─ audit_log (chi, cosa, su cosa, prima/dopo, quando: solo append)             ← operazioni utente e admin (8.17)
 ```
 
 Tutte le tabelle applicative hanno `tenant_id`: è ciò che permette di passare da "una istanza per cliente" a "più clienti per istanza" senza riscrivere.
@@ -448,3 +449,47 @@ Il `request_log` contiene `cliente_id` e conteggi (consentito dall'art. 10 del C
 
 **Cache della targa (punto 4)**
 ai-vin-service tiene in cache le conversioni targa → VIN (`src/functions/plate-to-vin.ts`, `store.cached` attorno alla chiamata RapidAPI/VRM): la stessa targa chiesta una seconda volta non costa nulla. La proposta era far sapere ad ai-vin-app se la conversione è venuta dalla cache o dal provider, per misurare il **costo reale** di AIVIN. Il tetto per seat invece conta ogni conversione chiesta dal cliente, cache o no: è più semplice e prevedibile per lui. Quindi oggi non serve: si potrà aggiungere quando servirà un'analisi dei costi dei provider.
+
+### 8.17 Audit log delle operazioni utente
+
+Deciso il 2026-11-12: nessun vincolo sulla riassegnazione dei seat, ma ogni operazione è verificabile a posteriori. Non ne avevamo ancora parlato: finora c'erano solo i log applicativi (anche delle login, TODO "Log delle login") e i registri delle chiamate.
+
+Tre registri diversi, per tre domande diverse:
+
+| Registro | Risponde a | Scritto da |
+|---|---|---|
+| log applicativi (`@ai-vin/logging`) | cosa è successo dentro una richiesta (diagnostica) | codice, a ogni livello |
+| `request_log` / `usage_event` / `search_log` | quali chiamate API, con che esito e quante unità | middleware `api()` |
+| **`audit_log`** | **chi ha cambiato cosa**, quando, da cosa a cosa | ogni operazione che modifica configurazione o stato |
+
+**Cosa si registra**
+
+| Area | Azioni |
+|---|---|
+| seat (AIVIN) | accensione, disattivazione, cambio tipo (`metered`/`unlimited`) |
+| associazioni (cliente) | assegnazione, sospensione, riattivazione, riassegnazione, chiusura; import da elenco (file, anteprima, righe applicate) |
+| API key | creazione, revoca, cambio permessi, rate limit, scadenza |
+| licensing | modifica dei plugin di risoluzione e del loro ordine |
+| piano (AIVIN) | API abilitate, meter, tetti, seat acquistati, rate limit massimi |
+| schedulazioni ed export | creazione, modifica, cancellazione; export on demand; **download** di export (contengono dati delle ricerche) |
+| dati | upload/import cross |
+| utenti e accesso | login riuscite e fallite, logout, inviti, cambio ruolo, rimozione membro, impersonificazione (inizio e fine, con l'admin che la fa) |
+
+**Forma di una riga**
+- `ts`, `tenant_id`, `request_id` (per ritrovare i log applicativi della stessa operazione);
+- attore: utente e ruolo, oppure API key, oppure `system` (job schedulato, import automatico); se in impersonificazione, anche l'admin reale;
+- azione (es. `seat_binding.reassign`), oggetto (tipo e id), **prima/dopo** in JSON (solo i campi cambiati, segreti esclusi: delle key solo prefisso e id);
+- esito (riuscita o rifiutata, col motivo: un tentativo negato è informazione utile);
+- IP e user agent.
+
+**Regole**
+- **Stessa transazione della modifica**: niente modifica senza riga di audit, niente riga di audit per una modifica annullata. In pratica un helper `audited(tx, action, target, before, after)` usato dal livello di servizio, non dalle route.
+- Eventi di autenticazione (login, inviti, ruoli, impersonificazione) dagli hook di Better Auth.
+- **Solo append**: nessuna API di modifica o cancellazione; su Postgres si può rinforzare togliendo `UPDATE`/`DELETE` all'utente applicativo su quella tabella.
+- Visibilità: l'admin tenant vede l'audit del proprio tenant; l'admin piattaforma vede tutto. Esportabile come gli altri report (stesso modulo export).
+- Retention: più lunga del `search_log`, almeno la durata del contratto più il periodo delle verifiche; durata esatta da fissare (anche ai fini GDPR, perché contiene IP ed email degli utenti).
+
+**Uso per la verifica delle licenze**
+Incrociando `audit_log` (riassegnazioni) e `request_log` (chiamate per seat e `cliente_id`) il report mensile mostra, per ogni seat, la sequenza dei `cliente_id` serviti e chi ha fatto ogni riassegnazione: è la base per la riconciliazione dell'art. 3 senza vincoli preventivi.
+
+Nel piano a fasi (8.11) l'audit entra nella fase 1 insieme a Better Auth: tutte le fasi successive che introducono operazioni lo usano da subito.
