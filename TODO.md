@@ -187,7 +187,7 @@ cross come dataset di tipo vincolato; export e report via API (analisi: `experim
  - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F4.1 merge `4215317`, F4.2 merge (vedi `git log`); esiti nelle spec `docs/platform/F4.*.md`
  - `/v1/cross/upload` deprecato (alias su `/v1/datasets`): da comunicare a Prasco con 30 giorni di preavviso prima di rimuoverlo; cambiamenti: 400 con validazione se il file non è valido, calo SKU > 30% rifiutato senza `force=true`, niente più 503
  - al boot la cross di `AIVIN_CROSS_FILE_PATH` viene importata come dataset (poi `AIVIN_CROSS_*` non servono più); nuove variabili `AIVIN_FILES_DIR`, `AIVIN_DATASET_MAX_ROWS`, `AIVIN_DATASET_REFRESH_MS`; OpenAPI `1.0.0-draft-19`
- - da decidere: `search_log` conserva il `vehicle_id` com'è arrivato (targa, se usata); l'export lo esclude (l'Offerta prevede solo il VIN)
+ - decisione 2026-11-12: `search_log` conserva anche il `vehicle_id` com'è arrivato (targa, se usata) come dato secondario; l'export delle ricerche per Prasco lo esclude (l'Offerta prevede solo il VIN)
 
 **[DONE]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
 licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
