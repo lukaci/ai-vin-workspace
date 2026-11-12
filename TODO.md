@@ -71,15 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F4: datasets versionati, export e report #piattaforma\
-cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
- - sequenza: dopo "Piattaforma F3", prima di "Piattaforma F5"
- - spec: `docs/platform/F4.1-datasets.md`, `F4.2-exports.md` su `feat/dev/platform`
- - `dataset` / `dataset_version`, tipi in codice: `generic`, `cross` (singleton per tenant), `assembly-groups` (piattaforma); attivazione, rollback, `dry_run`; versione attiva nel DB, snapshot sqlite per istanza scaricata da S3 quando cambia
- - API `/v1/datasets` (elenco, crea, versioni, attiva, download presigned, anteprima), usate anche dalla SPA al posto di `/api/datasets/*`; `POST /v1/cross/upload` come alias deprecato (preavviso di 30 giorni, Contratto art. 6)
- - export: `search-log` (Offerta art. 1.c), `usage-monthly` (UdV e seat per la fattura, seat con più `cliente_id` nel mese evidenziati); API `/v1/exports` (elenco, stato, download presigned, on demand); schedulazioni per tenant; retention
- - collegati: "Cross: sincronizzazione tra istanze", "Cross: validazione e limiti dell'upload", "Cross Prasco SKU → OE", "Piattaforma F5"
-
 **[TODO:MID]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
 sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
  - sequenza: dopo "Piattaforma F4", prima di "Piattaforma F6"
@@ -183,6 +174,19 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F4: datasets versionati, export e report #piattaforma\
+cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
+ - sequenza: dopo "Piattaforma F3", prima di "Piattaforma F5"
+ - spec: `docs/platform/F4.1-datasets.md`, `F4.2-exports.md` su `feat/dev/platform`
+ - `dataset` / `dataset_version`, tipi in codice: `generic`, `cross` (singleton per tenant), `assembly-groups` (piattaforma); attivazione, rollback, `dry_run`; versione attiva nel DB, snapshot sqlite per istanza scaricata da S3 quando cambia
+ - API `/v1/datasets` (elenco, crea, versioni, attiva, download presigned, anteprima), usate anche dalla SPA al posto di `/api/datasets/*`; `POST /v1/cross/upload` come alias deprecato (preavviso di 30 giorni, Contratto art. 6)
+ - export: `search-log` (Offerta art. 1.c), `usage-monthly` (UdV e seat per la fattura, seat con più `cliente_id` nel mese evidenziati); API `/v1/exports` (elenco, stato, download presigned, on demand); schedulazioni per tenant; retention
+ - collegati: "Cross: sincronizzazione tra istanze", "Cross: validazione e limiti dell'upload", "Cross Prasco SKU → OE", "Piattaforma F5"
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F4.1 merge `4215317`, F4.2 merge (vedi `git log`); esiti nelle spec `docs/platform/F4.*.md`
+ - `/v1/cross/upload` deprecato (alias su `/v1/datasets`): da comunicare a Prasco con 30 giorni di preavviso prima di rimuoverlo; cambiamenti: 400 con validazione se il file non è valido, calo SKU > 30% rifiutato senza `force=true`, niente più 503
+ - al boot la cross di `AIVIN_CROSS_FILE_PATH` viene importata come dataset (poi `AIVIN_CROSS_*` non servono più); nuove variabili `AIVIN_FILES_DIR`, `AIVIN_DATASET_MAX_ROWS`, `AIVIN_DATASET_REFRESH_MS`; OpenAPI `1.0.0-draft-19`
+ - da decidere: `search_log` conserva il `vehicle_id` com'è arrivato (targa, se usata); l'export lo esclude (l'Offerta prevede solo il VIN)
 
 **[DONE]** Piattaforma F3: seat, plugin di risoluzione, UdV e quote #piattaforma\
 licenze per Cliente Ricambista e conteggio delle UdV a contratto (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 2, 8.4, 8.5, 8.13, 8.14, 8.16)
