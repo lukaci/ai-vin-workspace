@@ -71,13 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
-sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
- - sequenza: dopo "Piattaforma F4", prima di "Piattaforma F6"
- - spec: `docs/platform/F5.1-views-foundation.md`, `F5.2-licenses-admin-views.md`, `F5.3-datasets-exports-views.md` su `feat/dev/platform`
- - Dashboard (chiamate entrate/riuscite/fallite/rifiutate per giorno e cliente, UdV per seat, warning su `seat_not_assigned` con azione "associa"), Datasets, Export (elenco, programmazioni, on demand), Licenze (seat, associazioni, import, plugin, API key), Amministrazione (membri, audit), Piattaforma (tenant, piani, accensione seat, rate limit, audit globale)
- - collegati: "Pannello di amministrazione", "Piattaforma F6"
-
 **[TODO:MID]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
 consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
  - sequenza: dopo "Piattaforma F5", prima di "Piattaforma F7"
@@ -175,6 +168,17 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
+sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
+ - sequenza: dopo "Piattaforma F4", prima di "Piattaforma F6"
+ - spec: `docs/platform/F5.1-views-foundation.md`, `F5.2-licenses-admin-views.md`, `F5.3-datasets-exports-views.md` su `feat/dev/platform`
+ - Dashboard (chiamate entrate/riuscite/fallite/rifiutate per giorno e cliente, UdV per seat, warning su `seat_not_assigned` con azione "associa"), Datasets, Export (elenco, programmazioni, on demand), Licenze (seat, associazioni, import, plugin, API key), Amministrazione (membri, audit), Piattaforma (tenant, piani, accensione seat, rate limit, audit globale)
+ - collegati: "Pannello di amministrazione", "Piattaforma F6"
+ - completato il 2026-11-12 su `feat/dev/platform` (ai-vin-app): F5.1 merge `4a37b54`, F5.2 merge `b2d2299`, F5.3 merge (vedi `git log`); esiti nelle spec `docs/platform/F5.*.md`
+ - sezioni: Ricerca, Dashboard, Datasets, Export, Licenze, Amministrazione, Piattaforma (solo admin AIVIN); visibilità e azioni in base al ruolo
+ - limite: un admin AIVIN non membro di un tenant non gestisce API key e membri di quel tenant dalle sezioni del tenant (vincolo Better Auth): da Piattaforma può aggiungersi come membro
+ - da rifinire: messaggi di validazione dei datasets in inglese nella UI italiana
 
 **[DONE]** Piattaforma F4: datasets versionati, export e report #piattaforma\
 cross come dataset di tipo vincolato; export e report via API (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.9, 8.10, 8.18, 8.19)
