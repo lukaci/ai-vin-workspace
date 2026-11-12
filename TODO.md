@@ -71,9 +71,11 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
+**[DOING]** Piattaforma F2: piano del tenant, API abilitate e rate limit #piattaforma\
 gateway come middleware Hono, configurazione su DB modificabile dall'admin (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.7)
  - sequenza: dopo "Piattaforma F1", prima di "Piattaforma F3"
+ - decisione 2026-11-12: ruoli del tenant `admin` (gestisce API key, membri, poi seat/schedulazioni/export) e `operator` (sola lettura); gli utenti Prasco restano `admin`; `owner` non dato ai tenant
+ - spec: `docs/platform/F2.1-roles-and-plans.md`, `F2.2-api-guard-rate-limits.md` su `feat/dev/platform`
  - piano per tenant (admin AIVIN): API abilitate, meter e tetti per API, seat acquistati, rate limit massimi, plugin di risoluzione ammessi, validità, timezone; config effettiva = piano ∩ tenant ∩ permessi della key
  - middleware globale `authenticate()` (key → tenant) + per rotta `api({ id, meter, async })`: abilitazione → rate limit → (seat, quota in F3) → `next()`; avvio fallito se una rotta di `/api/v1` non ha il descrittore; id API = nome logico dei log (`apiName`)
  - rate limit: politiche su DB con cache versionata, contatori in memoria per istanza
