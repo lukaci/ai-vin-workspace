@@ -71,14 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F7: skill e query sui datasets #piattaforma\
-nuove capacità dell'agente (analisi: `experiments/harness-analysis/ANALISI.md`, sezione 5.2 punti 2–3)
- - sequenza: dopo "Piattaforma F6", ultima fase
- - spec: `docs/platform/F7-skills-dataset-queries.md` su `feat/dev/platform`
- - skill `skills/<nome>/SKILL.md`: nome e descrizione nel prompt, tool `load_skill` / `read_skill_file`
- - tool `query_dataset` (solo `SELECT`, limite righe) sui dataset del tenant
- - collegati: "Piattaforma F6"
-
 **[TODO:MID]** Prasco: disattivare le targhe #runtime\
 prasco: disattivare le targhe
 
@@ -161,6 +153,16 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F7: skill e query sui datasets #piattaforma\
+nuove capacità dell'agente (analisi: `experiments/harness-analysis/ANALISI.md`, sezione 5.2 punti 2–3)
+ - sequenza: dopo "Piattaforma F6", ultima fase
+ - spec: `docs/platform/F7-skills-dataset-queries.md` su `feat/dev/platform`
+ - skill `skills/<nome>/SKILL.md`: nome e descrizione nel prompt, tool `load_skill` / `read_skill_file`
+ - tool `query_dataset` (solo `SELECT`, limite righe) sui dataset del tenant
+ - collegati: "Piattaforma F6"
+ - completato il 2026-11-13 su `feat/dev/platform` (ai-vin-app), merge in `git log`; esito in `docs/platform/F7-skills-dataset-queries.md`
+ - skill in `skills/` (da includere nel deploy o `AIVIN_SKILLS_DIR`); nuove variabili `AIVIN_DATASET_QUERY_TIMEOUT_MS` (5000), `AIVIN_DATASET_QUERY_CONCURRENCY` (4)
 
 **[DONE]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
 consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
