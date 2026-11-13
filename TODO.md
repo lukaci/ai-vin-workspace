@@ -71,15 +71,6 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[DOING]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
-consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
- - sequenza: dopo "Piattaforma F5", prima di "Piattaforma F7"
- - spec: `docs/platform/F6-chat-ai-sdk-7.md` su `feat/dev/platform`
- - migrazione AI SDK 5→6→7 con i codemod (verificato su Bun 1.4.4)
- - tool con `execute` a generatore (risultati preliminari) al posto di `data-tool-incremental` / `useChatWithIncremental`
- - persistenza `chat_thread` / `chat_message` con `tenant_id`, salvataggio in `onEnd`, id lato server, `consumeStream`; resume dello stream rinviato
- - collegati: "Piattaforma F7"
-
 **[TODO:MID]** Piattaforma F7: skill e query sui datasets #piattaforma\
 nuove capacità dell'agente (analisi: `experiments/harness-analysis/ANALISI.md`, sezione 5.2 punti 2–3)
  - sequenza: dopo "Piattaforma F6", ultima fase
@@ -169,6 +160,18 @@ vedere gli excel csv di TEO
 Nessun task aperto.
 
 ## DONE
+
+**[DONE]** Piattaforma F6: chat su AI SDK 7 con persistenza #piattaforma\
+consolidamento della chat (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 4 "Verifiche fatte qui", 5.2 punto 1)
+ - sequenza: dopo "Piattaforma F5", prima di "Piattaforma F7"
+ - spec: `docs/platform/F6-chat-ai-sdk-7.md` su `feat/dev/platform`
+ - migrazione AI SDK 5→6→7 con i codemod (verificato su Bun 1.4.4)
+ - tool con `execute` a generatore (risultati preliminari) al posto di `data-tool-incremental` / `useChatWithIncremental`
+ - persistenza `chat_thread` / `chat_message` con `tenant_id`, salvataggio in `onEnd`, id lato server, `consumeStream`; resume dello stream rinviato
+ - collegati: "Piattaforma F7"
+ - completato il 2026-11-13 su `feat/dev/platform` (ai-vin-app), merge in `git log`; esito in `docs/platform/F6-chat-ai-sdk-7.md`
+ - `ai` 7, `@ai-sdk/react` 4, `@ai-sdk/openai` 4; conversazioni salvate (`/chat/:threadId`) con barra laterale
+ - da verificare prima del deploy: una conversazione reale con OpenAI (qui provato solo con modello simulato, `AIVIN_CHAT_MOCK_MODEL` attivo solo fuori produzione)
 
 **[DONE]** Piattaforma F5: viste e pannello di amministrazione #piattaforma\
 sezioni dell'app per tenant e AIVIN (analisi: `experiments/harness-analysis/ANALISI.md`, sezioni 8.2, 8.16, 8.18, 8.19)
