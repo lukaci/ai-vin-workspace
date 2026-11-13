@@ -71,9 +71,10 @@ utilizzare le 'cross' di Prasco, il tracciato è un csv/excel  SKU -> OE -> desc
  - nel merge di `main` in `feat/dev/prasco`: tenuti `metadata` della `/part-applicability` e docs su `/api/docs`; tutti gli endpoint riattivati (su `feat/dev/prasco` erano commentati); `feat/dev/prasco` era indietro di 21 commit (v0.2 → v0.7, compreso il breaking `AIVIN_USE_PLATE`)
  - collegati: "Cross: sincronizzazione tra istanze", "Cross nelle API di search e nelle altre API", "Piattaforma F3" (registro ricerche), "Piattaforma F4" (export delle richieste)
 
-**[TODO:MID]** Piattaforma F7: skill e query sui datasets #piattaforma\
+**[DOING]** Piattaforma F7: skill e query sui datasets #piattaforma\
 nuove capacità dell'agente (analisi: `experiments/harness-analysis/ANALISI.md`, sezione 5.2 punti 2–3)
  - sequenza: dopo "Piattaforma F6", ultima fase
+ - spec: `docs/platform/F7-skills-dataset-queries.md` su `feat/dev/platform`
  - skill `skills/<nome>/SKILL.md`: nome e descrizione nel prompt, tool `load_skill` / `read_skill_file`
  - tool `query_dataset` (solo `SELECT`, limite righe) sui dataset del tenant
  - collegati: "Piattaforma F6"
